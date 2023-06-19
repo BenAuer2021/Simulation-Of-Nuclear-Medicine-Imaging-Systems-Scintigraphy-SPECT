@@ -44,17 +44,32 @@ Next we must define our detector and its components. For SPECT, we must define a
 /gate/SPECThead/setMaterial Air
 /gate/SPECThead/vis/setColor cyan
 ```
-The `SPECThead` volume **must** be large enough to include all components of the detector (including collimators or shielding), but not cover any part of the source or phantom. Any shielding material outside the `SPECThead` volume will be ignored in the simulation (i.e. photons will pass straight through). 
-
-
+The `SPECThead` volume **must** be large enough to include all components of the detector (including collimators or shielding), but not cover any part of the source or phantom. Any shielding material outside the `SPECThead` volume will be ignored in the simulation (i.e. photons will pass straight through). The `SPECThead` is shown as a cyan wire frame in Figure 1. 
 
 The positioning of the SPECT head will depend on the phantom that is used. The hierarchical structure of GATE means that any phantom volume will overwrite any SPECThead volume in the same position, this includes any air around the corners of a voxelised phantom. 
 
-All detector components must be defined relative to the **center** of the `SPECThead` volume. Any translation set in `/gate/SPECThead/placement/setTranslation' will be applied to all components. Therefore, `/gate/SPECThead/placement/setTranslation' is a good way to set the radius of the detector during the acquisition. 
+All detector components must be defined relative to the **center** of the `SPECThead` volume. Any translation set in `/gate/SPECThead/placement/setTranslation' will be applied to all components. Therefore, `/gate/SPECThead/placement/setTranslation` is a good way to set the radius of the detector during the acquisition. 
 
-Due to the phantom we are using here, a radius of 45 cm was set to avoid overlap of the phantom volume. 
+Due to the phantom we are using here, a radius of 45 cm was set to avoid overlap of the phantom volume. Using many repetitions  of the `SPECThead`   in the visualization (`/gate/SPECThead/ring/setRepeatNumber` below) can be useful to check for overlap at all rotation angles:
 
+![Vis_BV_LuPatient_TestOverlap](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/79ec0c40-9a79-4654-9a50-7dcc04983fc7)
 
+Now we define the components within the `SPECThead`. We will start with the NaI crystal
+
+```ruby 
+# Crystal
+/gate/cry_cover/daughters/name crystal
+/gate/cry_cover/daughters/insert box
+/gate/crystal/setMaterial NaI
+/gate/crystal/geometry/setXLength 0.9525 cm
+/gate/crystal/geometry/setYLength 54 cm
+/gate/crystal/geometry/setZLength 40 cm
+/gate/crystal/placement/setTranslation -0.3 0. 0. cm # relative to center of SPECT head volume
+/gate/crystal/vis/setColor yellow
+/gate/crystal/attachCrystalSD
+/gate/crystal/vis/forceSolid
+```
+The line `/gate/crystal/attachCrystalSD` sets this crystal as a _sensitive detector_ which means that _hits_ in this volume are recorded (see the Digitizer section). 
 
 
 ### Visualization
