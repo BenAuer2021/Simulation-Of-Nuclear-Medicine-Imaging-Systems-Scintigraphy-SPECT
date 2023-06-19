@@ -71,5 +71,33 @@ Now we define the components within the `SPECThead`. We will start with the NaI 
 ```
 The line `/gate/crystal/attachCrystalSD` sets this crystal as a _sensitive detector_ which means that _hits_ in this volume are recorded (see the Digitizer section). 
 
+Next, we will define the collimator. This is defined as a block of lead with an array of hexagonal holes. First we define the lead block
+
+```ruby 
+/gate/SPECThead/daughters/name collimator
+/gate/SPECThead/daughters/insert box
+/gate/collimator/geometry/setXLength 53 cm   
+/gate/collimator/geometry/setYLength 64 cm 
+/gate/collimator/geometry/setZLength 5.84 cm 
+/gate/collimator/placement/alignToX
+/gate/collimator/placement/setTranslation 15.63 0.0 0.0 cm 
+/gate/collimator/setMaterial CollLead
+/gate/collimator/vis/setColor grey
+/gate/collimator/vis/forceSolid
+/gate/collimator/attachPhantomSD
+```
+`/gate/collimator/attachPhantomSD` means that photon scatter interactions within this volume are recorded. 
+Now we insert a hexagonal hole of air into the collimator block and repeat it to create the array. Note that we have to rotate the hole by 90 degrees to orientate it correctly with the block. 
+
+```# Insert the first hole of air in the collimator
+## Ultra High Resolution PRISM XP
+/gate/collimator/daughters/name hole
+/gate/collimator/daughters/insert hexagone
+/gate/hole/geometry/setHeight 5.84 cm
+/gate/hole/geometry/setRadius 1.7 mm
+/gate/hole/placement/setRotationAxis 0 0 1
+/gate/hole/placement/setRotationAngle 90 deg
+/gate/hole/setMaterial Air
+/gate/hole/vis/setColor grey
 
 ### Visualization
