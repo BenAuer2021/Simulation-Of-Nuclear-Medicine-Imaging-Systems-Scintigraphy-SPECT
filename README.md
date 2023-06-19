@@ -23,8 +23,12 @@ This section provides an example for setting up a GATE simulation of a SPECT sca
 /gate/world/vis/setColor green
 /gate/world/setMaterial Air
 ```
-The world defines the experimental framework of the simulation. It must be large enough to contain the entire SPECT system and phantom. The tracking of particles is stopped once they leave the `world`. 
+The world defines the experimental framework of the simulation. It must be large enough to contain the entire SPECT system and phantom. The tracking of particles is stopped once they leave the `world`. The `world` is shown as a green wore frame in the visulazation of th esimulation shown in Figure 1. 
 `GateMaterials.db' must contain all elemental compositions and densities of materials which are defined later in the macro. 
+
+![Vis_BV_LuPatient](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/0995922f-eeda-4069-9f25-926ca7a8e76c)
+Figure 1: Visualisation of the simulation discussed in this Section. 
+
 
 ### Define the detector
 
@@ -43,9 +47,11 @@ Next we must define our detector and its components. For SPECT, we must define a
 ```
 The `SPECThead` volume **must** be large enough to include all components of the detector (including collimators or shielding), but not cover any part of the source or phantom. Any shielding material outside the `SPECThead` volume will be ignored in the simulation (i.e. photons will pass straight through). 
 
+
+
 The positioning of the SPECT head will depend on the phantom that is used. The hierarchical structure of GATE means that any phantom volume will overwrite any SPECThead volume in the same position, this includes any air around the corners of a voxelised phantom. 
 
-All detector components must be defined relative to the **center** of the `SPECThead' volume. Any translation set in `/gate/SPECThead/placement/setTranslation' will be applied to all components. Therefore, `/gate/SPECThead/placement/setTranslation' is a good way to set the radius of the detector during the acquisition. 
+All detector components must be defined relative to the **center** of the `SPECThead` volume. Any translation set in `/gate/SPECThead/placement/setTranslation' will be applied to all components. Therefore, `/gate/SPECThead/placement/setTranslation' is a good way to set the radius of the detector during the acquisition. 
 
 Due to the phantom we are using here, a radius of 45 cm was set to avoid overlap of the phantom volume. 
 
