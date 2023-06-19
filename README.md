@@ -71,7 +71,7 @@ Now we define the components within the `SPECThead`. We will start with the NaI 
 ```
 The line `/gate/crystal/attachCrystalSD` sets this crystal as a _sensitive detector_ which means that _hits_ in this volume are recorded (see the Digitizer section). 
 
-Next, we will define the collimator. This is defined as a block of lead with an array of hexagonal holes. First we define the lead block
+Next, we will define the collimator. These will be the MEGP collimators of the Philips BrightView. This is defined as a block of lead with an array of hexagonal holes. First we define the lead block
 
 ```ruby 
 /gate/SPECThead/daughters/name collimator
@@ -89,8 +89,8 @@ Next, we will define the collimator. This is defined as a block of lead with an 
 `/gate/collimator/attachPhantomSD` means that photon scatter interactions within this volume are recorded. 
 Now we insert a hexagonal hole of air into the collimator block and repeat it to create the array. Note that we have to rotate the hole by 90 degrees to orientate it correctly with the block. 
 
-```# Insert the first hole of air in the collimator
-## Ultra High Resolution PRISM XP
+```
+# Insert the first hole of air in the collimator
 /gate/collimator/daughters/name hole
 /gate/collimator/daughters/insert hexagone
 /gate/hole/geometry/setHeight 5.84 cm
@@ -98,6 +98,21 @@ Now we insert a hexagonal hole of air into the collimator block and repeat it to
 /gate/hole/placement/setRotationAxis 0 0 1
 /gate/hole/placement/setRotationAngle 90 deg
 /gate/hole/setMaterial Air
-/gate/hole/vis/setColor grey
+/gate/hole/vis/setColor white
+
+# Repeat the hole in a cubic array
+/gate/hole/repeaters/insert cubicArray
+/gate/hole/cubicArray/setRepeatNumberX 93
+/gate/hole/cubicArray/setRepeatNumberY 73 
+/gate/hole/cubicArray/setRepeatNumberZ 1
+/gate/hole/cubicArray/setRepeatVector  4.26 7.3785 0.0 mm 
+
+# Repeat these holes in a linear array
+/gate/hole/repeaters/insert linear
+/gate/hole/linear/setRepeatNumber 2
+/gate/hole/linear/setRepeatVector 2.13 3.6893 0.0 mm # (0.152 mm thick) 
+```
+
+
 
 ### Visualization
