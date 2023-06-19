@@ -23,11 +23,10 @@ This section provides an example for setting up a GATE simulation of a SPECT sca
 /gate/world/vis/setColor green
 /gate/world/setMaterial Air
 ```
-The world defines the experimental framework of the simulation. It must be large enough to contain the entire SPECT system and phantom. The tracking of particles is stopped once they leave the `world`. The `world` is shown as a green wore frame in the visulazation of th esimulation shown in Figure 1. 
-`GateMaterials.db' must contain all elemental compositions and densities of materials which are defined later in the macro. 
+The world defines the experimental framework of the simulation. It must be large enough to contain the entire SPECT system and phantom. The tracking of particles is stopped once they leave the `world`. The `world` is shown as a green wore frame in the visulazation of th esimulation shown in Figure 1. `GateMaterials.db' must contain all elemental compositions and densities of materials which are defined later in the macro. 
 
 ![Vis_BV_LuPatient](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/0995922f-eeda-4069-9f25-926ca7a8e76c)
-Figure 1: Visualisation of the simulation discussed in this Section. 
+<br /> Figure 1: Visualisation of the simulation discussed in this Section. 
 
 
 ### Define the detector
