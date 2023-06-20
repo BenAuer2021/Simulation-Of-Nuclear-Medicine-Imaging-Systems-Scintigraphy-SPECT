@@ -342,7 +342,7 @@ The ROOT output can be defined as follows
 /gate/output/root/setFileName ./PathTo/outputFileName
 /gate/output/root/setRootSinglesFlag 1
 ```
-where `./PathTo/outputFileName` gives the path and base name for the output root file to be written to (no extension is given). Here we have specified that the ROOT Singles tree should be recorded. We can turn off output of other trees to reduce the filesize of our output e.g: 
+where `./PathTo/outputFileName` gives the path and base name for the output root file to be written to (no extension is given). Here we have specified that the ROOT Singles tree should be recorded. Singles are the raw Hits data after the Digitizer modules have been applied.  We can turn off output of other trees to reduce the filesize of our output e.g: 
 
 ```ruby
 /gate/output/root/setRootHitFlag 0
