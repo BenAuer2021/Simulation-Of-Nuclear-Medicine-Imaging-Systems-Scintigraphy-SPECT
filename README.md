@@ -241,7 +241,10 @@ The source image `patient15_LuDOTATATE_src.h33` allows specific activities to be
 |     Tumour2       |     20000          |     55                           |
 |     Tumour3       |     21000          |     90                           |
 
-The following example shows how to define a source of <sup>177</sup>Lu gammas for each region. The gamma emission dats is from the IAEA database: https://www-nds.iaea.org/relnsd/vcharthtml/VChartHTML.html.
+
+See  See https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation#readme for more information on this source. 
+
+The following example shows how to define a source of <sup>177</sup>Lu gammas for each region. The gamma emission data is from the IAEA database: https://www-nds.iaea.org/relnsd/vcharthtml/VChartHTML.html.
 Note that this example shows the gamma emissions only,  so the simulation output will be missing the X-ray peaks and Bremsstrahlung from the betas seen in true <sup>177</sup>Lu spectra. 
 
 `VS_gamma` is the name of the voxelised gamma source 
