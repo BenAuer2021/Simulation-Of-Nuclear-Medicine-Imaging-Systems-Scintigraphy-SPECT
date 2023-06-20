@@ -385,7 +385,7 @@ We then set a start and stop time. Here we was 32 projections per head so 1280 s
 ############################### START ################################
 /gate/application/setTimeSlice      40.0  s
 /gate/application/setTimeStart      0.0  s
-/gate/application/setTimeStop       1280 s # 180 degree 2 heads
+/gate/application/setTimeStop       1280 s # 180 degree for each head
 /gate/application/startDAQ
 ```
 
