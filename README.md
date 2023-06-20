@@ -49,7 +49,7 @@ Next we must define our detector and its components. For SPECT, we must define a
 /gate/SPECThead/setMaterial Air
 /gate/SPECThead/vis/setColor cyan
 ```
-The `SPECThead` volume **must** be large enough to include all components of the detector (including collimators or shielding), but not cover any part of the source or phantom. Any shielding material outside the `SPECThead` volume will be ignored in the simulation (i.e. photons will pass straight through). The `SPECThead` is shown as a cyan wire frame in Figure 1. 
+The `SPECThead` volume **must** be large enough to include all components of the detector (including collimators or shielding), but not cover any part of the source or phantom. Any shielding material outside the `SPECThead` volume will be ignored in the simulation (i.e. photons will pass straight through). The `SPECThead` is shown as a cyan wire frame in Figure 1. Visualization commands e.g. `/vis/setColor' can be set for all volumes, but visualization will only occur when a viewer is specified (see Visualization section below). 
 
 The positioning of the SPECT head will depend on the phantom that is used. The hierarchical structure of GATE means that any phantom volume will overwrite any SPECThead volume in the same position, this includes any air around the corners of a voxelised phantom. 
 
@@ -390,3 +390,26 @@ We then set a start and stop time. Here we was 32 projections per head so 1280 s
 ```
 
 ### Visualization
+
+The following commands can be added to a GATE macro to permit visualization in OpenGL. This function requires installation of X11 and Qt. 
+
+```ruby
+/vis/open                             OGLI # or OGLS (OGLI better for voxelized phantom)
+/vis/drawVolume
+/vis/viewer/flush
+/tracking/storeTrajectory             1
+/vis/scene/add/trajectories
+/vis/scene/endOfEventAction           accumulate
+
+/vis/scene/add/axes            0 0 0 500 mm # Optiin to add axes
+/vis/scene/add/text            10 0 0 cm  20 0 0   X # Option to add labels for axes
+/vis/scene/add/text            0 10 0 cm  20 0 0   Y
+/vis/scene/add/text            0 0 10 cm  20 0 0   Z
+/vis/viewer/set/viewpointThetaPhi 0 0 
+/vis/viewer/set/auxiliaryEdge true
+```
+
+
+
+
+## 3. Reconstruction in CASToR
