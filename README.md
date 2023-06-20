@@ -444,7 +444,7 @@ where <br />
 `path/to/ifile.root` is the root output file from Gate <br />
 `path/to/outfile` is the base name to save the CASToR datafile to <br />
 `path/to/macrofile.mac` is the Gate macro file used to generate the root file <br />
-`scanner_alias` corresponds to a `scanner_alias.geom` file in your `castor\config\scanner\` directory.  <br />
+`scanner_alias` corresponds to a `scanner_alias.geom` file in your `castor/config/scanner/` directory.  <br />
 `bins_x,bins_y` are the transaxial and axial number of bins for projections, separated by a comma.
 
 Note that CASToR expects the macro to have units of cm. Comments after commands can also cause issues so make sure all comments are on their own new line. 
@@ -500,6 +500,24 @@ For the patient SPECT simulation, we set a translation of the `SPECThead` of 450
 
 Another argument `-t` can be provided to use only the true photons (i.e. unscattered), this will give a perfect scatter-corrected image to reconstruct. 
 
-Running this command will generate a CASToR datafile (.Cdf) and header (.Cdh). 
+Running ```castor-GATErootToCastor``` executable  will generate a CASToR datafile (.Cdf) and header (.Cdh). The CASToR datafile can then be reconstructed with the `castor-recon` executable. 
 
-The CASToR datafile can then be reconstructed with the `castor-recon` executable. 
+The reconstruction can be run by proving `castor-recon` the following arguments: <br />
+
+```
+castor-recon
+-df castor_datafile.Cdh
+-fout output_filename
+-opti MLEM
+-it iterations:subsets e.g. 6:15
+-dim dim_x,dim-y,dim_z e.g. 128,128,128
+-vox voxel_size_x,voxel_size_y,voxel_size_z (mm)
+-conv
+-atn linear_attenuation_coefficient.hdr (header file for linear attenuation image in units of /cm)
+-th
+-proj incrementalSiddon
+```
+
+
+
+
