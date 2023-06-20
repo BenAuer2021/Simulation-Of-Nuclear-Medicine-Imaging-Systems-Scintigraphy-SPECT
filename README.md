@@ -2,10 +2,13 @@
 
 
 
-## 1. SPECT simulation of the Philips BrightView - <sup>177</sup>Lu-DOTATATE patient 
+## 1. Philips BrightView system
+
+## 2. SPECT simulation of the Philips BrightView in GATE - <sup>177</sup>Lu-DOTATATE patient 
 
 This section provides an example for setting up a GATE simulation of a SPECT scan for a <sup>177</sup>Lu-DOTATATE patient. It uses the phantoms available here https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/patient_LuDOTATATE_phantoms.zip
 
+The Philips BrightView model with MEGP collimators is used. 
 
  The first step is to define the world and set the path to the file which defines all materials in the simulation:
  
@@ -95,6 +98,7 @@ Next, we will define the collimator. These will be the MEGP collimators of the P
 /gate/collimator/vis/forceSolid
 /gate/collimator/attachPhantomSD
 ```
+`alignToX` reorients the block along the x-axis (such that the patient bed is on the z axis). 
 
 Now we insert a hexagonal hole of air into the collimator block and repeat it to create the array. Note that we have to rotate the hole by 90 degrees to orientate it correctly with the block. 
 
@@ -174,11 +178,67 @@ The line `/gate/crystal/attachCrystalSD` sets this crystal as a _sensitive detec
 
 ### Digitizer 
 
+The digitizer modules mimic the response of the detector and electronic signal chain in the physical system. The energy of all photons absorbed in the crystal volume will be recorded as an exact value, so digitiser modules must be used to simulate the finite resolution of the physical detectors. 
+
+For SPECT, digitizers for energy and spatial blurring shoul dbe added, based on the specific system being modelled. Here, an energy blurring of 10% at 159 keV, and an intrinsic spatial resolution of 3 mm are set. 
+
+```ruby
+############################# Digitizer ##############################
+/gate/digitizer/Singles/insert adder
+/gate/digitizer/Singles/insert blurring
+
+#### Linear energy resolution
+/gate/digitizer/Singles/blurring/setLaw linear
+/gate/digitizer/Singles/blurring/linear/setResolution 0.10
+/gate/digitizer/Singles/blurring/linear/setEnergyOfReference 159 keV
+
+/gate/digitizer/Singles/insert spblurring
+/gate/digitizer/Singles/spblurring/setSpresolution 3. mm       
+```
+Other Digitizer modules can be set for e.g. deadtime and thresholding.  Energy windows can also be set to be used for projection output later:
+```ruby
+/gate/digitizer/name WindowPhotopeak
+/gate/digitizer/insert singleChain
+/gate/digitizer/WindowPhotopeak/setInputName Singles
+/gate/digitizer/WindowPhotopeak/insert thresholder
+/gate/digitizer/WindowPhotopeak/thresholder/setThreshold 187.2 keV
+/gate/digitizer/WindowPhotopeak/insert upholder
+/gate/digitizer/WindowPhotopeak/upholder/setUphold 228.8 keV
+```
+
 ### Physics, cuts and initialization
+
+Geant4 containes a library of pre-built physics list which describe all processes for photon and particle interaction with material. This can be set with 
+```/gate/physics/addPhysicsList emstandard_opt4```
+
+There appears to be an issue with scatter recording when atomic de-excitation is included. Therefore, for simulations where accurate scatter information is required, I would recommend to turn off atomic de-excitation with `/process/em/pixe false` with the physics definition and then `/process/em/fluo 0` after the simulation has been initialised. 
+
+We also define cuts which determine a threshold below which no secondary particles will be generated. Each volume can be given specific cuts, or else it will inheret from its parent volume. The default cuts for the world are 1 mm. 
+
+``` ruby
+##############################  C U T S ##############################
+/gate/physics/Gamma/SetCutInRegion      SPECThead 0.1 cm
+/gate/physics/Electron/SetCutInRegion   SPECThead 0.1 cm
+```
+
+
+
+
+The initialisation step must be performed **after** the geometry, phantom and digitizer is set and **before** the definition of the source and root output. 
+
+```
+/gate/run/initialize
+/gate/physics/processList Initialized
+```
+
 
 ### Source definition
 
+
+
 ### ROOT output
+
+
 
 ### Running the simulation
 
