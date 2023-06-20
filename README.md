@@ -364,5 +364,24 @@ The number and size of pixels in the x and y directions are specified.
 
 ### Running the simulation
 
+First we must set the random engine and its seed. `auto` automatically sets a random seed for each job or it can be specified. If running multiple simulation jobs and combining to improve statistics, make sure they have different specified random seeds or use `auto'. 
+
+```ruby
+############################### RANDOM ###############################
+/gate/random/setEngineName MersenneTwister
+/gate/random/setEngineSeed auto
+/gate/random/verbose 1
+```
+
+Now we start the simulation. We can specify a time slice, this will be the time for  each head position in step-and-shoot acquitions. In this example we use 40 seconds per projection. 
+We then set a start and stop time. Here we was 32 projections per head so 1280 seconds. 
+
+```ruby
+############################### START ################################
+/gate/application/setTimeSlice      40.0  s
+/gate/application/setTimeStart      0.0  s
+/gate/application/setTimeStop       1280 s # 180 degree 2 heads
+/gate/application/startDAQ
+```
 
 ### Visualization
