@@ -138,7 +138,7 @@ In this case we create two SPECTheads. They will automatically be positoned 180 
 /gate/SPECThead/ring/setPoint2 0. 0. 1. cm
 ```
 
-We now set the orbit speed for SPECT acquisitions. Here we consider 32 projections for each head with an acquisition time of 40 seconds per projection. The orbitting speed here must correspond to the frame time slice set later (see Running the Simnulation)
+We now set the orbit speed for SPECT acquisitions. Here we consider 32 projections for each head with an acquisition time of 40 seconds per projection. The orbitting speed here must correspond to the frame time slice set later (see Running the Simulation). Here we set the orbitting about the z axis (where our patient bed will be). 
 
 ```ruby
 /gate/SPECThead/moves/insert orbiting
