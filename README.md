@@ -78,11 +78,8 @@ Now we define the components within the `SPECThead`. We will start with the NaI 
 /gate/crystal/geometry/setZLength 40 cm
 /gate/crystal/placement/setTranslation -0.3 0. 0. cm # relative to center of cry_cover
 /gate/crystal/vis/setColor yellow
-/gate/crystal/attachCrystalSD
 /gate/crystal/vis/forceSolid
 ```
-`/gate/collimator/attachPhantomSD` means that photon scatter interactions within this volume are recorded. The line `/gate/crystal/attachCrystalSD` sets this crystal as a _sensitive detector_ which means that _hits_ in this volume are recorded (see the Digitizer section). 
-
 Next, we will define the collimator. These will be the MEGP collimators of the Philips BrightView. This is defined as a block of lead with an array of hexagonal holes. First we define the lead block
 
 ```ruby 
@@ -152,7 +149,28 @@ We now set the orbit speed for SPECT acquisitions. Here we consider 32 projectio
 
 ### Phantom definition
 
+Now we define the phantom. Here the phantom is defined at the center of the world.
+```ruby
+/gate/world/daughters/name voxelPhantom
+/gate/world/daughters/insert ImageNestedParametrisedVolume 
+/gate/voxelPhantom/geometry/setImage ./PathTo/patient15_LuDOTATATE_attn.h33
+/gate/voxelPhantom/geometry/setRangeToMaterialFile ./PathTo/patient15_ID2mat.txt
+/gate/voxelPhantom/placement/setTranslation  0. 0. 0. cm
+/gate/voxelPhantom/attachPhantomSD
+```
+The file `patient15_ID2mat.txt` specifies the materials to be assigned to each voxel of the image. The materials in this file must correspond to ones defined a file set with the `/gate/geometry/setMaterialDatabase` command. See https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation#readme for the materials used in this image. Be sure to include `/gate/voxelPhantom/attachPhantomSD` so that all scatter interactions within the phantom are recorded. The number of Compton and Rayleigh events will be recorded throughout all volumes assigned `attachPhantomSD` for any photons absorbed in the crystal. 
+
 ### Sensitive detectors
+We must now set our crystal as a sensitive volume, so that photon interactions within it will be stored as _hits_ and processed according to the Digitizer set below. 
+
+```ruby
+######################## SENSITIVE DETECTORS #########################
+/gate/systems/SPECThead/crystal/attach crystal
+/gate/systems/SPECThead/describe
+/gate/crystal/attachCrystalSD****
+```
+The line `/gate/crystal/attachCrystalSD` sets this crystal as a _sensitive detector_ which means that _hits_ in this volume are recorded (see the Digitizer section). 
+
 
 ### Digitizer 
 
