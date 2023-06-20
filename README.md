@@ -220,10 +220,6 @@ We also define cuts which determine a threshold below which no secondary particl
 /gate/physics/Gamma/SetCutInRegion      SPECThead 0.1 cm
 /gate/physics/Electron/SetCutInRegion   SPECThead 0.1 cm
 ```
-
-
-
-
 The initialisation step must be performed **after** the geometry, phantom and digitizer is set and **before** the definition of the source and root output. 
 
 ```
@@ -234,11 +230,137 @@ The initialisation step must be performed **after** the geometry, phantom and di
 
 ### Source definition
 
+The source image `patient15_LuDOTATATE_src.h33` allows specific activities to be defined separately for the liver, spleen, left and right kidneys and the three tumours. The source model defines the following values: 
+|     Region        |     Voxel value    |     Number   of source voxels    |
+|-------------------|--------------------|----------------------------------|
+|     Liver         |     15000          |     15381                        |
+|     Spleen        |     16000          |     1535                         |
+|     L   Kidney    |     17000          |     2052                         |
+|     R   Kidney    |     18000          |     2493                         |
+|     Tumour1       |     19000          |     93                           |
+|     Tumour2       |     20000          |     55                           |
+|     Tumour3       |     21000          |     90                           |
+
+The following example shows how to define a source of <sup>177</sup>Lu gammas for each region. The gamma emission dats is from the IAEA database: https://www-nds.iaea.org/relnsd/vcharthtml/VChartHTML.html.
+Note that this example shows the gamma emissions only,  so the simulation output will be missing the X-ray peaks and Bremsstrahlung from the betas seen in true <sup>177</sup>Lu spectra. 
+
+`VS_gamma` is the name of the voxelised gamma source 
+```ruby
+
+#  Voxelised gamma source of 177Lu
+#  For 1MBq of 17Lu,
+#  Gamma activity = 0.172688 MBq (scale activity file accordingly)
+
+# Add new voxelised source
+/gate/source/addSource VS_gamma voxel
+/gate/source/VS_gamma/reader/insert image
+/gate/source/VS_gamma/imageReader/translator/insert range
+/gate/source/VS_gamma/imageReader/rangeTranslator/readTable patient15_activity_235MBq.dat
+/gate/source/VS_gamma/imageReader/rangeTranslator/describe 1
+/gate/source/VS_gamma/imageReader/readFile patient15_LuDOTATATE_src.h33
+
+# THE DEFAULT POSITION OF THE VOXELIZED SOURCE IS IN THE 1ST QUARTER
+# SO THE VOXELIZED SOURCE HAS TO BE SHIFTED OVER HALF ITS DIMENSION IN THE NEGATIVE DIRECTION ON EACH AXIS
+/gate/source/VS_gamma/setPosition -210.9402 -136.7205 -198.882 mm
+
+# Attach to voxel phantom
+/gate/source/VS_gamma/attachTo VoxAttn
+
+/gate/source/VS_gamma/gps/ang/type iso
+
+# Set verbosity (2 = every event)
+# Good to set to 2 initially to check output is as expected
+/gate/source/VS_gamma/gps/verbose 0
+
+# Force unstable
+/gate/source/VS_gamma/setForcedUnstableFlag  true
+# Half life is 6.647 days
+/gate/source/VS_gamma/setForcedHalfLife 574067.52 s
+
+/gate/source/VS_gamma/gps/particle    gamma
+/gate/source/VS_gamma/gps/ene/type  User
+/gate/source/VS_gamma/gps/hist/type    energy
+
+/gate/source/VS_gamma/gps/ene/min    0.0716419 MeV
+/gate/source/VS_gamma/gps/ene/max    0.321315901 MeV
+
+# ------------------hist of emissions----------------------------- #
+/gate/source/VS_gamma/gps/hist/point 0.0716419999 0.0
+/gate/source/VS_gamma/gps/hist/point 0.071642 0.164
+/gate/source/VS_gamma/gps/hist/point 0.0716420001 0.0
+
+/gate/source/VS_gamma/gps/hist/point 0.1129497999 0.0
+/gate/source/VS_gamma/gps/hist/point 0.1129498 6.23
+/gate/source/VS_gamma/gps/hist/point 0.11294980001 0.0
+
+/gate/source/VS_gamma/gps/hist/point 0.1367244999 0.0
+/gate/source/VS_gamma/gps/hist/point 0.1367245     0.0465
+/gate/source/VS_gamma/gps/hist/point 0.13672450001 0.0
+
+/gate/source/VS_gamma/gps/hist/point 0.2083661999 0.0
+/gate/source/VS_gamma/gps/hist/point 0.2083662     10.41
+/gate/source/VS_gamma/gps/hist/point 0.20836620001 0.0
+
+/gate/source/VS_gamma/gps/hist/point 0.2496741999 0.0
+/gate/source/VS_gamma/gps/hist/point 0.2496742     0.1997
+/gate/source/VS_gamma/gps/hist/point 0.24967420001 0.0
+
+/gate/source/VS_gamma/gps/hist/point 0.3213158999 0.0
+/gate/source/VS_gamma/gps/hist/point 0.3213159     0.2186
+/gate/source/VS_gamma/gps/hist/point 0.3213159001 0.0
+###################################################
+
+/gate/source/list
+/gate/source/VS_gamma/dump 1
+
+```
+The file `patient15_activity_235MBq.dat` permits the definition of activity in each region of the source image, based on its voxel values. 
+The following example sets a total activity of 235 MBq in the phantom.
+
+``` ruby
+7
+15000.0 15000.0 1167.645
+16000.0 16000.0 3847.511
+17000.0 17000.0 2625.665
+18000.0 18000.0 2576.813
+19000.0 19000.0 28595.65
+20000.0 20000.0 25746.21
+21000.0 21000.0 9210.026667
+```
+The first row specifies the number of active regions we want to set. The following rows specify a voxel range to set to an activity (Bq/voxel). For example, here we have 3847.511 Bq/voxel in the spleen which has 1535 source voxels. Therefore we define a total gamma activity of 5.91 MBq. Note that <sup>177</sup>Lu has a total gamma decay branching ratio of  0.172688, so this corresponds to a total activity of <sup>177</sup>Lu  of 34.2 MBq. 
 
 
-### ROOT output
+### Output
 
+The ROOT output can be defined as follows 
 
+```ruby
+/gate/output/root/enable
+/gate/output/root/setFileName ./PathTo/outputFileName
+/gate/output/root/setRootSinglesFlag 1
+```
+where `./PathTo/outputFileName` gives the path and base name for the output root file to be written to (no extension is given). Here we have specified that the ROOT Singles tree should be recorded. We can turn off output of other trees to reduce the filesize of our output e.g: 
+
+```ruby
+/gate/output/root/setRootHitFlag 0
+/gate/output/root/setRootNtupleFlag 0
+/gate/output/root/setRootSinglesAdderFlag 0
+/gate/output/root/setRootSinglesBlurringFlag 0
+/gate/output/root/setRootSinglesSpblurringFlag 0
+```
+
+We can also write projections directly from the simulation. The energy window for the projection should have been already specified as a thresholder digitizer module: 
+```ruby
+/gate/output/projection/enable
+/gate/output/projection/setInputDataName WindowPhotopeak
+/gate/output/projection/setFileName ./PathTo/outputFileName
+/gate/output/projection/projectionPlane YZ
+/gate/output/projection/pixelSizeX 0.234 cm
+/gate/output/projection/pixelSizeY 0.234 cm
+/gate/output/projection/pixelNumberX 230
+/gate/output/projection/pixelNumberY 170
+```
+The number and size of pixels in the x and y directions are specified. 
 
 ### Running the simulation
 
