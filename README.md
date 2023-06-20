@@ -367,7 +367,7 @@ The number and size of pixels in the x and y directions are specified.
 
 ### Running the simulation
 
-First we must set the random engine and its seed. `auto` automatically sets a random seed for each job or it can be specified. If running multiple simulation jobs and combining to improve statistics, make sure they have different specified random seeds or use `auto'. 
+First we must set the random engine and its seed. `auto` automatically sets a random seed for each job or it can be specified. If running multiple simulation jobs and combining to improve statistics, make sure they have different specified random seeds or use `auto`. 
 
 ```ruby
 ############################### RANDOM ###############################
