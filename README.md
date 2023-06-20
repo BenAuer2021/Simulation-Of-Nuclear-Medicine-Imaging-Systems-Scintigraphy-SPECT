@@ -128,7 +128,41 @@ Now we insert a hexagonal hole of air into the collimator block and repeat it to
 The figure below shows a close-up of the initial hexagonal hole, the hexagonal array after the first repeater and then after the second. 
 ![coll_hole_array](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/09f44bf2-6f94-4138-b0d1-8474dc31d173)
 
+Other detector components, e.g. shielding and electronics, are defined in the same way. After the components of the `SPECThead` have been defined, we can repeat the detector for dual- (or more) head acquisition. 
+In this case we create two SPECTheads. They will automatically be positoned 180 degrees apart. 
 
+```ruby
+/gate/SPECThead/repeaters/insert ring
+/gate/SPECThead/ring/setRepeatNumber 2
+/gate/SPECThead/ring/setPoint1 0. 0. 0. cm
+/gate/SPECThead/ring/setPoint2 0. 0. 1. cm
+```
+
+We now set the orbit speed for SPECT acquisitions. Here we consider 32 projections for each head with an acquisition time of 40 seconds per projection. 
+
+```ruby
+/gate/SPECThead/moves/insert orbiting
+# Want each head to move 180 degrees in 32 projections
+# 5.625 deg/frame movement.
+# Setting 40 seconds per frame so 0.140625 deg/s
+/gate/SPECThead/orbiting/setSpeed 0.140625 deg/s
+/gate/SPECThead/orbiting/setPoint1 0. 0. 0. cm
+/gate/SPECThead/orbiting/setPoint2 0. 0. 1. cm
+```
+
+### Phantom definition
+
+### Sensitive detectors
+
+### Digitizer 
+
+### Physics, cuts and initialization
+
+### Source definition
+
+### ROOT output
+
+### Running the simulation
 
 
 ### Visualization
