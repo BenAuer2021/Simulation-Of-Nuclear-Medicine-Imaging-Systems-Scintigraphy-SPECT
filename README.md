@@ -469,7 +469,7 @@ axial gap size: 0 # Given in mm
 detector depth: 20
 
 # Distance between the center of rotation (COR) of the scanner and the surface of a detection head in mm
-scanner radius: 135.0, 135.0 # Head 1 and 2 ROR is 13.5 cm for brain
+scanner radius: 264.5,264.5 # Head 1 and 2 ROR for patient
 
 # Collimator configuration
 
@@ -496,7 +496,10 @@ field of view transaxial        : 613.7856 # optional (default is the half of th
 field of view axial                : 613.7856 # optional (default is length of the scanner computed from the given parameters)
 ```
 
+For the patient SPECT simulation, we set a translation of the `SPECThead` of 450 mm. The center of the SPECThead to center of the colimator is 158.5 mm and the collimator length is 54 mm. Therefore, the radius from COR to the front of collimator is 264.5 mm. 
 
 Another argument `-t` can be provided to use only the true photons (i.e. unscattered), this will give a perfect scatter-corrected image to reconstruct. 
 
 Running this command will generate a CASToR datafile (.Cdf) and header (.Cdh). 
+
+The CASToR datafile can then be reconstructed with the `castor-recon` executable. 
