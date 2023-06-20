@@ -26,7 +26,7 @@ The first step is to define the world and set the path to the file which defines
 /gate/world/geometry/setYLength 150. cm 
 /gate/world/geometry/setZLength 260. cm 
 /gate/world/vis/forceWireframe
-/gate/world/vis/setVisible 0
+/gate/world/vis/setVisible 1
 /gate/world/vis/setColor green
 /gate/world/setMaterial Air
 ```
@@ -128,7 +128,7 @@ Next, we will define the collimator. These will be the MEGP collimators of the P
 
 Now we insert a hexagonal hole of air into the collimator block and repeat it to create the array. Note that we have to rotate the hole by 90 degrees to orientate it correctly with the block. 
 
-```
+```ruby
 # Insert the first hole of air in the collimator
 /gate/collimator/daughters/name hole
 /gate/collimator/daughters/insert hexagone
@@ -197,7 +197,7 @@ We must now set our crystal as a sensitive volume, so that photon interactions w
 ######################## SENSITIVE DETECTORS #########################
 /gate/systems/SPECThead/crystal/attach crystal
 /gate/systems/SPECThead/describe
-/gate/crystal/attachCrystalSD****
+/gate/crystal/attachCrystalSD
 ```
 The line `/gate/crystal/attachCrystalSD` sets this crystal as a _sensitive detector_ which means that _hits_ in this volume are recorded (see the Digitizer section). 
 
@@ -268,7 +268,7 @@ The source image `patient15_LuDOTATATE_src.h33` allows specific activities to be
 |     Tumour3       |     21000          |     90                           |
 
 
-See  See https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation#readme for more information on this source. 
+See https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation#readme for more information on this source. 
 
 The following example shows how to define a source of <sup>177</sup>Lu gammas for each region. The gamma emission data is from the IAEA database: https://www-nds.iaea.org/relnsd/vcharthtml/VChartHTML.html.
 Note that this example shows the gamma emissions only,  so the simulation output will be missing the X-ray peaks and Bremsstrahlung from the betas seen in true <sup>177</sup>Lu spectra. 
@@ -436,3 +436,16 @@ The following commands can be added to a GATE macro to permit visualization in O
 
 
 ## 3. Reconstruction in CASToR
+
+CASToR provides a tool to create a CASToR datafile directly from a GATE macro and root file: `castor-GATErootToCastor`. To use: 
+
+```castor-GATErootToCastor -i path/to/ifile.root -o path/to/outfile -m path/to/macrofile.mac -s scanner_alias```
+where <\br >
+`path/to/ifile.root` is the root output file from Gate <\br >
+`path/to/outfile` is the base name to save the CASToR datafile to <\br >
+`path/to/macrofile.mac` is the Gate macro file used to generate the root file
+`scanner_alias` corresponds to a `scanner_alias.geom` file in your `castor\config\scanner\` directory. 
+
+Note that CASToR expects the macro to have units of cm. Comments after commands can also cause issues so make sure all comments are on their own new line. 
+
+
