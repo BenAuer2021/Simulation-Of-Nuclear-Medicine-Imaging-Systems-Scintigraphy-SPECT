@@ -54,9 +54,21 @@ Due to the phantom we are using here, a radius of 45 cm was set to avoid overlap
 
 ![Vis_BV_LuPatient_TestOverlap](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/79ec0c40-9a79-4654-9a50-7dcc04983fc7)
 
-Now we define the components within the `SPECThead`. We will start with the NaI crystal
+Now we define the components within the `SPECThead`. We will start with the NaI crystal and its cover.
 
 ```ruby 
+# Crystal cover
+/gate/cry_cover/daughters/name Al_sheet
+/gate/cry_cover/daughters/insert box
+/gate/Al_sheet/setMaterial Aluminium
+/gate/Al_sheet/geometry/setXLength 0.1 cm
+/gate/Al_sheet/geometry/setYLength 54 cm
+/gate/Al_sheet/geometry/setZLength 40 cm
+/gate/Al_sheet/placement/setTranslation 0.22625 0. 0. cm # relative to center of SPECThead
+/gate/Al_sheet/vis/setColor white
+/gate/Al_sheet/vis/forceWireframe
+/gate/Al_sheet/attachPhantomSD
+
 # Crystal
 /gate/cry_cover/daughters/name crystal
 /gate/cry_cover/daughters/insert box
@@ -64,12 +76,12 @@ Now we define the components within the `SPECThead`. We will start with the NaI 
 /gate/crystal/geometry/setXLength 0.9525 cm
 /gate/crystal/geometry/setYLength 54 cm
 /gate/crystal/geometry/setZLength 40 cm
-/gate/crystal/placement/setTranslation -0.3 0. 0. cm # relative to center of SPECT head volume
+/gate/crystal/placement/setTranslation -0.3 0. 0. cm # relative to center of cry_cover
 /gate/crystal/vis/setColor yellow
 /gate/crystal/attachCrystalSD
 /gate/crystal/vis/forceSolid
 ```
-The line `/gate/crystal/attachCrystalSD` sets this crystal as a _sensitive detector_ which means that _hits_ in this volume are recorded (see the Digitizer section). 
+`/gate/collimator/attachPhantomSD` means that photon scatter interactions within this volume are recorded. The line `/gate/crystal/attachCrystalSD` sets this crystal as a _sensitive detector_ which means that _hits_ in this volume are recorded (see the Digitizer section). 
 
 Next, we will define the collimator. These will be the MEGP collimators of the Philips BrightView. This is defined as a block of lead with an array of hexagonal holes. First we define the lead block
 
@@ -86,7 +98,7 @@ Next, we will define the collimator. These will be the MEGP collimators of the P
 /gate/collimator/vis/forceSolid
 /gate/collimator/attachPhantomSD
 ```
-`/gate/collimator/attachPhantomSD` means that photon scatter interactions within this volume are recorded. 
+
 Now we insert a hexagonal hole of air into the collimator block and repeat it to create the array. Note that we have to rotate the hole by 90 degrees to orientate it correctly with the block. 
 
 ```
@@ -107,11 +119,15 @@ Now we insert a hexagonal hole of air into the collimator block and repeat it to
 /gate/hole/cubicArray/setRepeatNumberZ 1
 /gate/hole/cubicArray/setRepeatVector  4.26 7.3785 0.0 mm 
 
-# Repeat these holes in a linear array
+# Now shift the hole and repeat these holes in a linear array
 /gate/hole/repeaters/insert linear
 /gate/hole/linear/setRepeatNumber 2
 /gate/hole/linear/setRepeatVector 2.13 3.6893 0.0 mm # (0.152 mm thick) 
 ```
+
+The figure below shows a close-up of the initial hexagonal hole, the hexagonal array after the first repeater and then after the second. 
+![coll_hole_array](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/09f44bf2-6f94-4138-b0d1-8474dc31d173)
+
 
 
 
