@@ -1,6 +1,8 @@
 # Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT
 
+Contacts: bauer@bwh.harvard.edu, sophia.pells@umassmed.edu
 
+Table of contents:
 
 ## 1. Philips BrightView system
 
@@ -12,7 +14,7 @@ This section provides an example for setting up a GATE simulation of a SPECT sca
 
 The Philips BrightView model with MEGP collimators is used. 
 
- The first step is to define the world and set the path to the file which defines all materials in the simulation:
+The first step is to define the world and set the path to the file which defines all materials in the simulation:
  
  ```ruby 
 ############################################################## 
@@ -28,7 +30,7 @@ The Philips BrightView model with MEGP collimators is used.
 /gate/world/vis/setColor green
 /gate/world/setMaterial Air
 ```
-The world defines the experimental framework of the simulation. It must be large enough to contain the entire SPECT system and phantom. The tracking of particles is stopped once they leave the `world`. The `world` is shown as a green wore frame in the visulazation of th esimulation shown in Figure 1. `GateMaterials.db' must contain all elemental compositions and densities of materials which are defined later in the macro. 
+The world defines the experimental framework of the simulation. It must be large enough to contain the entire SPECT system and phantom. The tracking of particles is stopped once they leave the `world`. The `world` is shown as a green wire frame in the visulazation of the simulation shown in Figure 1. `GateMaterials.db' must contain all elemental compositions and densities of materials which are defined later in the macro. 
 
 ![Vis_BV_LuPatient](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/0995922f-eeda-4069-9f25-926ca7a8e76c)
 <br /> Figure 1: Visualisation of the simulation discussed in this Section. 
@@ -51,11 +53,11 @@ Next we must define our detector and its components. For SPECT, we must define a
 ```
 The `SPECThead` volume **must** be large enough to include all components of the detector (including collimators or shielding), but not cover any part of the source or phantom. Any shielding material outside the `SPECThead` volume will be ignored in the simulation (i.e. photons will pass straight through). The `SPECThead` is shown as a cyan wire frame in Figure 1. Visualization commands e.g. `/vis/setColor' can be set for all volumes, but visualization will only occur when a viewer is specified (see Visualization section below). 
 
-The positioning of the SPECT head will depend on the phantom that is used. The hierarchical structure of GATE means that any phantom volume will overwrite any SPECThead volume in the same position, this includes any air around the corners of a voxelised phantom. 
+The positioning of the SPECT head will depend on the acquisition and the phantom that is used. The hierarchical structure of GATE means that any phantom volume will overwrite any SPECThead volume in the same position, this includes any air around the corners of a voxelised phantom. 
 
 All detector components must be defined relative to the **center** of the `SPECThead` volume. Any translation set in `/gate/SPECThead/placement/setTranslation` will be applied to all components. Therefore, `/gate/SPECThead/placement/setTranslation` is a good way to set the radius of the detector during the acquisition. 
 
-Due to the phantom we are using here, a radius of 45 cm was set to avoid overlap of the phantom volume. Using many repetitions  of the `SPECThead`   in the visualization (`/gate/SPECThead/ring/setRepeatNumber` below) can be useful to check for overlap at all rotation angles:
+Due to the phantom we are using here, a radius of 45 cm was set to avoid overlap of the phantom volume. Using many repetitions  of the `SPECThead` (`/gate/SPECThead/ring/setRepeatNumber` below)  and running  the visualization can be useful to check for overlap at all rotation angles:
 
 ![Vis_BV_LuPatient_TestOverlap](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/79ec0c40-9a79-4654-9a50-7dcc04983fc7)
 
@@ -63,13 +65,35 @@ Now we define the components within the `SPECThead`. We will start with the NaI 
 
 ```ruby 
 # Crystal cover
+/gate/lead_casing/daughters/name cry_cover
+/gate/lead_casing/daughters/insert box
+/gate/cry_cover/setMaterial Lead
+/gate/cry_cover/geometry/setXLength 1.5525 cm
+/gate/cry_cover/geometry/setYLength 54 cm
+/gate/cry_cover/geometry/setZLength 40 cm
+/gate/cry_cover/placement/setTranslation 7.47625 0. 0 cm # relative to center of SPECThead
+/gate/cry_cover/vis/setColor yellow
+/gate/cry_cover/attachPhantomSD
+
+# Air Gap
+/gate/cry_cover/daughters/name Air_gap
+/gate/cry_cover/daughters/insert box
+/gate/Air_gap/setMaterial Air
+/gate/Air_gap/geometry/setXLength 0.5 cm
+/gate/Air_gap/geometry/setYLength 54 cm
+/gate/Air_gap/geometry/setZLength 40 cm
+/gate/Air_gap/placement/setTranslation 0.52625 0. 0. cm # relative to center of cry_cover
+/gate/Air_gap/vis/setColor red
+/gate/Air_gap/vis/forceSolid
+
+# Aluminium box
 /gate/cry_cover/daughters/name Al_sheet
 /gate/cry_cover/daughters/insert box
 /gate/Al_sheet/setMaterial Aluminium
 /gate/Al_sheet/geometry/setXLength 0.1 cm
 /gate/Al_sheet/geometry/setYLength 54 cm
 /gate/Al_sheet/geometry/setZLength 40 cm
-/gate/Al_sheet/placement/setTranslation 0.22625 0. 0. cm # relative to center of SPECThead
+/gate/Al_sheet/placement/setTranslation 0.22625 0. 0. cm # relative to center of cry_cover
 /gate/Al_sheet/vis/setColor white
 /gate/Al_sheet/vis/forceWireframe
 /gate/Al_sheet/attachPhantomSD
@@ -182,7 +206,7 @@ The line `/gate/crystal/attachCrystalSD` sets this crystal as a _sensitive detec
 
 The digitizer modules mimic the response of the detector and electronic signal chain in the physical system. The energy of all photons absorbed in the crystal volume will be recorded as an exact value, so digitiser modules must be used to simulate the finite resolution of the physical detectors. 
 
-For SPECT, digitizers for energy and spatial blurring shoul dbe added, based on the specific system being modelled. Here, an energy blurring of 10% at 159 keV, and an intrinsic spatial resolution of 3 mm are set. 
+For SPECT, digitizers for energy and spatial blurring should be added, based on the specific system being modelled. Here, an energy blurring of 10% at 159 keV and an intrinsic spatial resolution of 3 mm are set. 
 
 ```ruby
 ############################# Digitizer ##############################
@@ -210,7 +234,7 @@ Other Digitizer modules can be set for e.g. deadtime and thresholding.  Energy w
 
 ### Physics, cuts and initialization
 
-Geant4 containes a library of pre-built physics list which describe all processes for photon and particle interaction with material. This can be set with 
+Geant4 containes a library of pre-built physics list which describe all processes for photon and particle interaction with material. This can be set with e.g.
 ```/gate/physics/addPhysicsList emstandard_opt4```
 
 There appears to be an issue with scatter recording when atomic de-excitation is included. Therefore, for simulations where accurate scatter information is required, I would recommend to turn off atomic de-excitation with `/process/em/pixe false` with the physics definition and then `/process/em/fluo 0` after the simulation has been initialised. 
@@ -222,7 +246,7 @@ We also define cuts which determine a threshold below which no secondary particl
 /gate/physics/Gamma/SetCutInRegion      SPECThead 0.1 cm
 /gate/physics/Electron/SetCutInRegion   SPECThead 0.1 cm
 ```
-The initialisation step must be performed **after** the geometry, phantom and digitizer is set and **before** the definition of the source and root output. 
+The initialisation step must be performed **after** the geometry, phantom and digitizer is set and **before** the definition of the source and root output:
 
 ```
 /gate/run/initialize
@@ -365,7 +389,7 @@ We can also write projections directly from the simulation. The energy window fo
 /gate/output/projection/pixelNumberX 230
 /gate/output/projection/pixelNumberY 170
 ```
-The number and size of pixels in the x and y directions are specified. 
+The number and size of pixels in the x and y directions are specified. This will create an interfile projection image of the specified dimensions with 32 bit float data. 
 
 ### Running the simulation
 
@@ -378,8 +402,7 @@ First we must set the random engine and its seed. `auto` automatically sets a ra
 /gate/random/verbose 1
 ```
 
-Now we start the simulation. We can specify a time slice, this will be the time for  each head position in step-and-shoot acquitions. In this example we use 40 seconds per projection. 
-We then set a start and stop time. Here we was 32 projections per head so 1280 seconds. 
+Now we start the simulation. We can specify a time slice, this will be the time for  each head position in step-and-shoot acquitions. In this example we use 40 seconds per projection. We then set a start and stop time. Here we used 32 projections per head so 1280 seconds. 
 
 ```ruby
 ############################### START ################################
@@ -401,7 +424,7 @@ The following commands can be added to a GATE macro to permit visualization in O
 /vis/scene/add/trajectories
 /vis/scene/endOfEventAction           accumulate
 
-/vis/scene/add/axes            0 0 0 500 mm # Optiin to add axes
+/vis/scene/add/axes            0 0 0 500 mm # Option to add axes
 /vis/scene/add/text            10 0 0 cm  20 0 0   X # Option to add labels for axes
 /vis/scene/add/text            0 10 0 cm  20 0 0   Y
 /vis/scene/add/text            0 0 10 cm  20 0 0   Z
