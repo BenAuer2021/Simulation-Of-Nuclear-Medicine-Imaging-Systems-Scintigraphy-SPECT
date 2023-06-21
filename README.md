@@ -800,3 +800,7 @@ Thyroid and Bone scan here example
 
 This section provides an example for setting up a GATE simulation of a SPECT scan for a <sup>177</sup>Lu-DOTATATE patient. 
 
+## 3. SPECT Simulation of the Philips BrightView in GATE
+
+Multi-bed acquisition Bone here 
+
