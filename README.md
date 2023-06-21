@@ -4,9 +4,38 @@ Contacts: bauer@bwh.harvard.edu, sophia.pells@umassmed.edu
 
 Table of contents:
 
-## 1. Philips BrightView system
+
+## 1. Objective
+In this tutorial, we offer a step-by-step walk through on how to build a realistic SPECT/scintigraphy simulation in [GATE source page](http://www.opengatecollaboration.org).  The Philips BrightView system with LEHR-VXHR, LEHR, MEGP, and HEGP parrallel-hole collimators and single-pinhole collimator. 
+
+## 1. Philips BrightView system specification
+
+The simulated Philips BrightView system models described here were adapted from one of previous projects where we aimed to evaluate the impact of downscatter contamination in I-123 SPECT imaging. The system model was validated against experimental data. More information can be found on the following article.
+> - Könik A, Auer B, De Beenhouwer J, et al. (2019). [Primary, scatter, and penetration characterizations of parallel-hole and pinhole collimators for I-123 SPECT](https://iopscience.iop.org/article/10.1088/1361-6560/ab58fe/meta), Physics in Medicine & Biology, 64(24), 245001.
+
+|     LEHR        |     LEHR-VXHR    |     MEGP   |     HEGP   |     Single Pinhole   |
+|-------------------|--------------------|----------------------------------|
+| Hole Size (mm)           | 1.22 | 2.03 | 3.40 | 3.81 | 5.00 |
+| Collimator thickness / Bore length (cm)| 2.70 | 5.4 | 5.84 | 5.84  |  4.15|  
+| Septal thickness (mm)    | 0.152 | 0.152 | 0.86 | 1.73 | N/A |   
+| Bore length (mm)         |   
+
+
+<img width="637" alt="Screen Shot 2023-06-21 at 3 39 19 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/f86ad491-ed22-4f57-ac2e-8a0cfff9d2bd">
+
+<img width="429" alt="Screen Shot 2023-06-21 at 3 38 48 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/e4d3e4ef-71ba-4508-9ebf-ec1b22a8c748">
+
 
 ### 1.1 Collimator models 
+
+The LEHR collimators are typically built by folding lead alloy foils, forming double septa on two opposing sides and single septa on the other four sides of the hexagon holes resulting in uneven stopping power. The MEGP and HEGP collimators are built by casting lead, where all six walls are formed by single septa providing a uniform stopping power – except at the vertices of the hexagon.
+
+Another detail to note is that the LEHR hexagon holes are oriented in 90° with respect to the holes of the MEGP and HEGP collimators. Assuming an equal surface area for the collimator plane and the NaI(T1) crystal (540 × 400 mm2), 354 × 350, 146 × 93 and 112 × 72 holes were placed in the LEHR, MEGP and HEGP collimators, occupying 74%, 64%, and 47% (as shown in Table 1) of the collimator volumes, respectively.
+
+The geometry of the SPH collimator was first generated in SolidworksR software (https://www.solidworks.com/) based on the Computer-Aided Design (CAD) drawing provided by the manufacturer and then was converted into the STL format (triangular surface meshes) and imported into GATE.
+
+For modeling the compartments behind the 0.925-cm thick crystal (i.e., back compartment), we followed the “intermediate model” described in (Rault et al., 2011), which represents the compartments as multiple layers and PMTs by a box filled with a mixture of materials. Their study shows that the intermediate model provided the best quantitative (sensitivity and spatial resolution) agreement with the measurements for the I-123 source. Herein, the back compartments consist of a light guide (0.925 cm), PMTs, and electronics, which are enclosed in the lead and aluminum casings as indicated in Figure 2.
+
 
 ## 2. SPECT simulation of the Philips BrightView in GATE - <sup>177</sup>Lu-DOTATATE patient 
 
