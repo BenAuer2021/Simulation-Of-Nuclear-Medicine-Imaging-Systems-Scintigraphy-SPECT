@@ -506,18 +506,21 @@ The reconstruction can be run by proving `castor-recon` the following arguments:
 
 ```
 castor-recon
+[Main options:]
 -df castor_datafile.Cdh
--fout output_filename
--opti MLEM
+-fout output_filename (or can use -dout to give output directory)
 -it iterations:subsets e.g. 6:15
--dim dim_x,dim-y,dim_z e.g. 128,128,128
--vox voxel_size_x,voxel_size_y,voxel_size_z (mm)
--conv
--atn linear_attenuation_coefficient.hdr (header file for linear attenuation image in units of /cm)
--th
--proj incrementalSiddon
+-dim dim_x,dim-y,dim_z (Number of voxels in each direction e.g. 128,128,128)
+-vox voxel_size_x,voxel_size_y,voxel_size_z (Voxel size in each dimension, in mm)
+[Optional extras:]
+-opti MLEM (the optimiser to use, see -help-opti for all options)
+-conv parameters;when (give image convolver parameters e.g. gaussian,7.,7.,5.::psf. See castor-recon -help-conv for all options. when states when the colvolver is applied, e.g. in psf) 
+-atn linear_attenuation_coefficient.hdr (option to provide header file for linear attenuation image in units of /cm)
+-th num_threads (set the number of threads for parallel computing, set to 0 for maximum available)
+-proj incrementalSiddon (the projector to be used for forward and back projection Siddon is default, see castor-recon -help-proj for all options)
+-vb verbosity (from 0 - no output to 5 - all events)
 ```
+The gaussian convolution `gaussian,7.,7.,5.::psf` sets a classic stationary Gaussian kernel with transaxial FWHM 7 mm, axial FWHM 7 mm and 5 sigmas. 
 
-
-
+`caator-recon` will write an image and headerfile for each iteration up to the total number specified. 
 
