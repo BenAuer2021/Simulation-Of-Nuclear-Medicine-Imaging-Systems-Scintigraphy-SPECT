@@ -13,20 +13,26 @@ In this tutorial, we offer a step-by-step walk through on how to build a realist
 The simulated Philips BrightView system models described here were adapted from one of previous projects where we aimed to evaluate the impact of downscatter contamination in I-123 SPECT imaging. The system model was validated against experimental data. More information can be found on the following article.
 > - Könik A, Auer B, De Beenhouwer J, et al. (2019). [Primary, scatter, and penetration characterizations of parallel-hole and pinhole collimators for I-123 SPECT](https://iopscience.iop.org/article/10.1088/1361-6560/ab58fe/meta), Physics in Medicine & Biology, 64(24), 245001.
 
+The collimator specifications adapted from the manufacturer's specification can be found in the table below,
+
 | |    LEHR        |     LEHR-VXHR    |     MEGP   |     HEGP   |     Single Pinhole   |
 |---------|----------|---------|-----------|------------------|----------------|
-| Hole Size (mm)           | 1.22 | 2.03 | 3.40 | 3.81 | 5.00 |
+| Hole size/diameter (mm)           | 1.22 | 2.03 | 3.40 | 3.81 | 5.00 |
 | Collimator thickness / Bore length (cm)| 2.70 | 5.4 | 5.84 | 5.84  |  4.15|  
-| Septal thickness (mm)    | 0.152 | 0.152 | 0.86 | 1.73 | N/A |   
-| Bore length (mm)         |   
+| Septal thickness (mm)    | 0.152 | 0.152 | 0.86 | 1.73 | N/A |    
+
+<p align="center">
+<img width="277" alt="Screen Shot 2023-06-21 at 3 51 33 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/367a83e8-999e-47eb-a075-0ce890336acf">
+</p>
+
+The detector consists of a 9.5-mm thick NaI(Tl) inorganic scintillator located at 3.5, 6.2, and 6.64 mm behind the surface of the collimator for the LEHR, LEHR-VXHR, MEGP/HEGP, respectively. The crystal dimension is 540 (transaxial) by 400 (axial) mm<sup>2</sup>.
+
+### 1.1 SPECT Simulation Collimator models in GATE
 
 
 <img width="637" alt="Screen Shot 2023-06-21 at 3 39 19 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/f86ad491-ed22-4f57-ac2e-8a0cfff9d2bd">
 
 <img width="429" alt="Screen Shot 2023-06-21 at 3 38 48 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/e4d3e4ef-71ba-4508-9ebf-ec1b22a8c748">
-
-
-### 1.1 Collimator models 
 
 The LEHR collimators are typically built by folding lead alloy foils, forming double septa on two opposing sides and single septa on the other four sides of the hexagon holes resulting in uneven stopping power. The MEGP and HEGP collimators are built by casting lead, where all six walls are formed by single septa providing a uniform stopping power – except at the vertices of the hexagon.
 
