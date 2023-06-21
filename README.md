@@ -13,8 +13,8 @@ In this tutorial, we offer a step-by-step walk through on how to build a realist
 The simulated Philips BrightView system models described here were adapted from one of previous projects where we aimed to evaluate the impact of downscatter contamination in I-123 SPECT imaging. The system model was validated against experimental data. More information can be found on the following article.
 > - Könik A, Auer B, De Beenhouwer J, et al. (2019). [Primary, scatter, and penetration characterizations of parallel-hole and pinhole collimators for I-123 SPECT](https://iopscience.iop.org/article/10.1088/1361-6560/ab58fe/meta), Physics in Medicine & Biology, 64(24), 245001.
 
-|     LEHR        |     LEHR-VXHR    |     MEGP   |     HEGP   |     Single Pinhole   |
-|-------------------|--------------------|----------------------------------|
+| |    LEHR        |     LEHR-VXHR    |     MEGP   |     HEGP   |     Single Pinhole   |
+|---------|----------|---------|-----------|------------------|----------------|
 | Hole Size (mm)           | 1.22 | 2.03 | 3.40 | 3.81 | 5.00 |
 | Collimator thickness / Bore length (cm)| 2.70 | 5.4 | 5.84 | 5.84  |  4.15|  
 | Septal thickness (mm)    | 0.152 | 0.152 | 0.86 | 1.73 | N/A |   
