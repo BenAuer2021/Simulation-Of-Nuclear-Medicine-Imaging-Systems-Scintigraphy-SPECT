@@ -8,7 +8,7 @@ Table of contents:
 ## 1. Objective
 In this tutorial, we offer a step-by-step walk through on how to build a realistic SPECT/scintigraphy simulation in [GATE source page](http://www.opengatecollaboration.org).  The Philips BrightView system with LEHR-VXHR, LEHR, MEGP, and HEGP parrallel-hole collimators and single-pinhole collimator. 
 
-## 1. Philips BrightView system specification
+## 2. Philips BrightView system specification
 
 The simulated Philips BrightView system models described here were adapted from one of previous projects where we aimed to evaluate the impact of downscatter contamination in I-123 SPECT imaging. The system model was validated against experimental data. More information can be found on the following article.
 > - Könik A, Auer B, De Beenhouwer J, et al. (2019). [Primary, scatter, and penetration characterizations of parallel-hole and pinhole collimators for I-123 SPECT](https://iopscience.iop.org/article/10.1088/1361-6560/ab58fe/meta), Physics in Medicine & Biology, 64(24), 245001.
@@ -27,28 +27,11 @@ The collimator specifications adapted from the manufacturer's specification can 
 
 The detector consists of a 9.5-mm thick NaI(Tl) inorganic scintillator located at 3.5, 6.2, and 6.64 mm behind the surface of the collimator for the LEHR, LEHR-VXHR, MEGP/HEGP, respectively. The crystal dimension is 540 (transaxial) by 400 (axial) mm<sup>2</sup>.
 
-### 1.1 SPECT Simulation Collimator models in GATE
+## 3. GATE Simulation of the Philips BrightView SPECT System
 
+We described below in details the modelling of BrightView SPECT System equipped with the MEGP collimator. 
 
-<img width="637" alt="Screen Shot 2023-06-21 at 3 39 19 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/f86ad491-ed22-4f57-ac2e-8a0cfff9d2bd">
-
-<img width="429" alt="Screen Shot 2023-06-21 at 3 38 48 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/e4d3e4ef-71ba-4508-9ebf-ec1b22a8c748">
-
-The LEHR collimators are typically built by folding lead alloy foils, forming double septa on two opposing sides and single septa on the other four sides of the hexagon holes resulting in uneven stopping power. The MEGP and HEGP collimators are built by casting lead, where all six walls are formed by single septa providing a uniform stopping power – except at the vertices of the hexagon.
-
-Another detail to note is that the LEHR hexagon holes are oriented in 90° with respect to the holes of the MEGP and HEGP collimators. Assuming an equal surface area for the collimator plane and the NaI(T1) crystal (540 × 400 mm2), 354 × 350, 146 × 93 and 112 × 72 holes were placed in the LEHR, MEGP and HEGP collimators, occupying 74%, 64%, and 47% (as shown in Table 1) of the collimator volumes, respectively.
-
-The geometry of the SPH collimator was first generated in SolidworksR software (https://www.solidworks.com/) based on the Computer-Aided Design (CAD) drawing provided by the manufacturer and then was converted into the STL format (triangular surface meshes) and imported into GATE.
-
-For modeling the compartments behind the 0.925-cm thick crystal (i.e., back compartment), we followed the “intermediate model” described in (Rault et al., 2011), which represents the compartments as multiple layers and PMTs by a box filled with a mixture of materials. Their study shows that the intermediate model provided the best quantitative (sensitivity and spatial resolution) agreement with the measurements for the I-123 source. Herein, the back compartments consist of a light guide (0.925 cm), PMTs, and electronics, which are enclosed in the lead and aluminum casings as indicated in Figure 2.
-
-
-## 2. SPECT simulation of the Philips BrightView in GATE - <sup>177</sup>Lu-DOTATATE patient 
-
-This section provides an example for setting up a GATE simulation of a SPECT scan for a <sup>177</sup>Lu-DOTATATE patient. It uses the phantoms available here https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/patient_LuDOTATATE_phantoms.zip
-
-The Philips BrightView model with MEGP collimators is used. 
-
+### Define the world volume
 The first step is to define the world and set the path to the file which defines all materials in the simulation:
  
  ```ruby 
@@ -65,15 +48,14 @@ The first step is to define the world and set the path to the file which defines
 /gate/world/vis/setColor green
 /gate/world/setMaterial Air
 ```
-The world defines the experimental framework of the simulation. It must be large enough to contain the entire SPECT system and phantom. The tracking of particles is stopped once they leave the `world`. The `world` is shown as a green wire frame in the visulazation of the simulation shown in Figure 1. `GateMaterials.db' must contain all elemental compositions and densities of materials which are defined later in the macro. 
+The world defines the experimental framework of the simulation. It must be large enough to contain the entire SPECT system and phantom. The tracking of particles is stopped once they leave the `world`. The `world` is shown as a green wire frame in the visualization of the simulation shown in Figure 1. `GateMaterials.db' must contain all elemental compositions and densities of materials which are defined later in the macro. 
 
 ![Vis_BV_LuPatient](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/0995922f-eeda-4069-9f25-926ca7a8e76c)
 <br /> Figure 1: Visualisation of the simulation discussed in this Section. 
 
+### Define the system geometry
 
-### Define the detector
-
-Next we must define our detector and its components. For SPECT, we must define a volume of type `SPECThead`. This volume will contain all components of the SPECT camera detectors. 
+Next we must define our detector and its components. For SPECT, we must define a volume of type `SPECThead`. This volume will contain all components of the SPECT system and can even include the phantom.
 
 ```ruby
 #####  SPECTHead: ######
@@ -86,27 +68,51 @@ Next we must define our detector and its components. For SPECT, we must define a
 /gate/SPECThead/setMaterial Air
 /gate/SPECThead/vis/setColor cyan
 ```
-The `SPECThead` volume **must** be large enough to include all components of the detector (including collimators or shielding), but not cover any part of the source or phantom. Any shielding material outside the `SPECThead` volume will be ignored in the simulation (i.e. photons will pass straight through). The `SPECThead` is shown as a cyan wire frame in Figure 1. Visualization commands e.g. `/vis/setColor' can be set for all volumes, but visualization will only occur when a viewer is specified (see Visualization section below). 
+The `SPECThead` volume **must** be large enough to include all components of the system (including collimators or shielding) and can include the phantom as well to enable close contouring. The `SPECThead` volume must not cover any part of the source or phantom. Any shielding material outside the `SPECThead` volume will be ignored in the simulation (i.e. photons will pass straight through). The `SPECThead` is shown as a cyan wire frame in Figure 1. Visualization commands e.g. `/vis/setColor' can be set for all volumes, but visualization will only occur when a viewer is specified (see Visualization section below). 
 
 The positioning of the SPECT head will depend on the acquisition and the phantom that is used. The hierarchical structure of GATE means that any phantom volume will overwrite any SPECThead volume in the same position, this includes any air around the corners of a voxelised phantom. 
 
 All detector components must be defined relative to the **center** of the `SPECThead` volume. Any translation set in `/gate/SPECThead/placement/setTranslation` will be applied to all components. Therefore, `/gate/SPECThead/placement/setTranslation` is a good way to set the radius of the detector during the acquisition. This is the radius to the center of the `SPECThead` volume, not to the front collimator or touch plate.
 
-Due to the phantom we are using here, a radius of 45 cm was set to avoid overlap of the phantom volume. Using many repetitions  of the `SPECThead` (`/gate/SPECThead/ring/setRepeatNumber` below)  and running  the visualization can be useful to check for overlap at all rotation angles:
+Due to the phantom we are using here, a radius of 45 cm was set to avoid overlap between the phantom volume and system components. Using multiple repetitions  of the `SPECThead` (`/gate/SPECThead/ring/setRepeatNumber` below)  and running  the visualization can be useful to check for overlap at all rotation angles as it can be seen in the figure below:
 
 ![Vis_BV_LuPatient_TestOverlap](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/79ec0c40-9a79-4654-9a50-7dcc04983fc7)
 
-Now we define the components within the `SPECThead`. We will start with the NaI crystal and its cover.
+Now we define the components within the `SPECThead`. We will start with the NaI(Tl) crystal and its cover.
 
 ```ruby 
+#### Aluminium casing ####
+/gate/SPECThead/daughters/name Al_casing
+/gate/SPECThead/daughters/insert box
+/gate/Al_casing/setMaterial Aluminium
+/gate/Al_casing/geometry/setXLength 19.205 cm
+/gate/Al_casing/geometry/setYLength 64.0 cm
+/gate/Al_casing/geometry/setZLength 53.0 cm
+/gate/Al_casing/placement/setTranslation 3.1075 0.0 0.0 cm # relative to center of SPECTHead (Mother Volume)
+/gate/Al_casing/vis/setColor magenta
+/gate/Al_casing/vis/forceWireframe
+/gate/Al_casing/attachPhantomSD
+
+# Lead casing
+/gate/Al_casing/daughters/name lead_casing
+/gate/Al_casing/daughters/insert box
+/gate/lead_casing/setMaterial Lead
+/gate/lead_casing/geometry/setXLength 16.505 cm
+/gate/lead_casing/geometry/setYLength 58.6 cm
+/gate/lead_casing/geometry/setZLength 47.6 cm
+/gate/lead_casing/placement/setTranslation 1.35 0.0 0.0 cm # relative to center of Al_casing
+/gate/lead_casing/vis/setColor grey
+/gate/lead_casing/vis/forceWireframe
+/gate/lead_casing/attachPhantomSD
+
 # Crystal cover
 /gate/lead_casing/daughters/name cry_cover
 /gate/lead_casing/daughters/insert box
 /gate/cry_cover/setMaterial Lead
 /gate/cry_cover/geometry/setXLength 1.5525 cm
-/gate/cry_cover/geometry/setYLength 54 cm
-/gate/cry_cover/geometry/setZLength 40 cm
-/gate/cry_cover/placement/setTranslation 7.47625 0. 0 cm # relative to center of SPECThead
+/gate/cry_cover/geometry/setYLength 54.0 cm
+/gate/cry_cover/geometry/setZLength 40.0 cm
+/gate/cry_cover/placement/setTranslation 7.47625 0.0 0.0 cm # relative to center of lead_casing
 /gate/cry_cover/vis/setColor yellow
 /gate/cry_cover/attachPhantomSD
 
@@ -115,9 +121,9 @@ Now we define the components within the `SPECThead`. We will start with the NaI 
 /gate/cry_cover/daughters/insert box
 /gate/Air_gap/setMaterial Air
 /gate/Air_gap/geometry/setXLength 0.5 cm
-/gate/Air_gap/geometry/setYLength 54 cm
-/gate/Air_gap/geometry/setZLength 40 cm
-/gate/Air_gap/placement/setTranslation 0.52625 0. 0. cm # relative to center of cry_cover
+/gate/Air_gap/geometry/setYLength 54.0 cm
+/gate/Air_gap/geometry/setZLength 40.0 cm
+/gate/Air_gap/placement/setTranslation 0.52625 0.0 0.0 cm # relative to center of cry_cover
 /gate/Air_gap/vis/setColor red
 /gate/Air_gap/vis/forceSolid
 
@@ -126,9 +132,9 @@ Now we define the components within the `SPECThead`. We will start with the NaI 
 /gate/cry_cover/daughters/insert box
 /gate/Al_sheet/setMaterial Aluminium
 /gate/Al_sheet/geometry/setXLength 0.1 cm
-/gate/Al_sheet/geometry/setYLength 54 cm
-/gate/Al_sheet/geometry/setZLength 40 cm
-/gate/Al_sheet/placement/setTranslation 0.22625 0. 0. cm # relative to center of cry_cover
+/gate/Al_sheet/geometry/setYLength 54.0 cm
+/gate/Al_sheet/geometry/setZLength 40.0 cm
+/gate/Al_sheet/placement/setTranslation 0.22625 0.0 0.0 cm # relative to center of cry_cover
 /gate/Al_sheet/vis/setColor white
 /gate/Al_sheet/vis/forceWireframe
 /gate/Al_sheet/attachPhantomSD
@@ -138,20 +144,20 @@ Now we define the components within the `SPECThead`. We will start with the NaI 
 /gate/cry_cover/daughters/insert box
 /gate/crystal/setMaterial NaI
 /gate/crystal/geometry/setXLength 0.9525 cm
-/gate/crystal/geometry/setYLength 54 cm
-/gate/crystal/geometry/setZLength 40 cm
-/gate/crystal/placement/setTranslation -0.3 0. 0. cm # relative to center of cry_cover
+/gate/crystal/geometry/setYLength 54.0 cm
+/gate/crystal/geometry/setZLength 40.0 cm
+/gate/crystal/placement/setTranslation -0.3 0.0 0.0 cm # relative to center of cry_cover
 /gate/crystal/vis/setColor yellow
 /gate/crystal/vis/forceSolid
 ```
-Next, we will define the collimator. These will be the MEGP collimators of the Philips BrightView. This is defined as a block of lead with an array of hexagonal holes. First we define the lead block
+Next, we will define the collimator. These will be the MEGP collimators of the Philips BrightView described above. This is defined as a block of lead with an array of hexagonal holes. First we define the lead block,
 
 ```ruby 
 /gate/SPECThead/daughters/name collimator
 /gate/SPECThead/daughters/insert box
-/gate/collimator/geometry/setXLength 53 cm   
-/gate/collimator/geometry/setYLength 64 cm 
-/gate/collimator/geometry/setZLength 5.84 cm 
+/gate/collimator/geometry/setXLength 53.0 cm   
+/gate/collimator/geometry/setYLength 64.0 cm 
+/gate/collimator/geometry/setZLength 5.84 cm # Collimator thickness / Bore length 
 /gate/collimator/placement/alignToX
 /gate/collimator/placement/setTranslation 15.63 0.0 0.0 cm 
 /gate/collimator/setMaterial CollLead
@@ -159,7 +165,7 @@ Next, we will define the collimator. These will be the MEGP collimators of the P
 /gate/collimator/vis/forceSolid
 /gate/collimator/attachPhantomSD
 ```
-`alignToX` reorients the block along the x-axis (such that the patient bed is on the z axis). 
+`alignToX` reorients the block along the x-axis (such that the patient bed is on the z axis). It is similar to perform a 2D 90-degree rotation along the X-axis (setRotationAxis 1 0 0 / setRotationAngle 90 deg).
 
 Now we insert a hexagonal hole of air into the collimator block and repeat it to create the array. Note that we have to rotate the hole by 90 degrees to orientate it correctly with the block. 
 
@@ -167,7 +173,7 @@ Now we insert a hexagonal hole of air into the collimator block and repeat it to
 # Insert the first hole of air in the collimator
 /gate/collimator/daughters/name hole
 /gate/collimator/daughters/insert hexagone
-/gate/hole/geometry/setHeight 5.84 cm
+/gate/hole/geometry/setHeight 5.84 cm # bore length
 /gate/hole/geometry/setRadius 1.7 mm
 /gate/hole/placement/setRotationAxis 0 0 1
 /gate/hole/placement/setRotationAngle 90 deg
@@ -184,23 +190,83 @@ Now we insert a hexagonal hole of air into the collimator block and repeat it to
 # Now shift the hole and repeat these holes in a linear array
 /gate/hole/repeaters/insert linear
 /gate/hole/linear/setRepeatNumber 2
-/gate/hole/linear/setRepeatVector 2.13 3.6893 0.0 mm # (0.152 mm thick) 
+/gate/hole/linear/setRepeatVector 2.13 3.6893 0.0 mm
 ```
 
 The figure below shows a close-up of the initial hexagonal hole, the hexagonal array after the first repeater and then after the second. 
 ![coll_hole_array](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/09f44bf2-6f94-4138-b0d1-8474dc31d173)
 
-Other detector components, e.g. shielding and electronics, are defined in the same way. After the components of the `SPECThead` have been defined, we can repeat the detector for dual- (or more) head acquisition. 
-In this case we create two SPECTheads. They will automatically be positoned 180 degrees apart. 
+Other detector components, e.g. light guide, PMTs, and electronics, are defined in the same way. 
+
+```ruby
+# Back Material
+/gate/lead_casing/daughters/name back_material
+/gate/lead_casing/daughters/insert box
+/gate/back_material/setMaterial Lead
+/gate/back_material/geometry/setXLength 13.1525 cm
+/gate/back_material/geometry/setYLength 55.0 cm
+/gate/back_material/geometry/setZLength 44.0 cm
+/gate/back_material/placement/setTranslation 0.12375 0.0 0.0 cm
+/gate/back_material/attachPhantomSD
+/gate/back_material/vis/forceSolid
+
+# Light Guide
+/gate/back_material/daughters/name Light_Guide
+/gate/back_material/daughters/insert box
+/gate/Light_Guide/setMaterial Glass
+/gate/Light_Guide/geometry/setXLength 0.9525 cm
+/gate/Light_Guide/geometry/setYLength 54.0 cm
+/gate/Light_Guide/geometry/setZLength 40.0 cm
+/gate/Light_Guide/placement/setTranslation 6.1 0.0 0.0 cm
+/gate/Light_Guide/vis/setColor white
+/gate/Light_Guide/vis/forceWireframe
+/gate/Light_Guide/attachPhantomSD
+/gate/Light_Guide/vis/forceSolid
+
+# Photo-muliplier tubes
+/gate/back_material/daughters/name PMTs
+/gate/back_material/daughters/insert box
+/gate/PMTs/setMaterial PMTs
+/gate/PMTs/geometry/setXLength 11.7 cm
+/gate/PMTs/geometry/setYLength 54.0 cm
+/gate/PMTs/geometry/setZLength 40.0 cm
+/gate/PMTs/placement/setTranslation -0.22625 0.0 0.0 cm
+/gate/PMTs/vis/setColor magenta
+/gate/PMTs/vis/forceWireframe
+/gate/PMTs/attachPhantomSD
+/gate/PMTs/vis/forceSolid
+
+# Electronics
+/gate/back_material/daughters/name electronics
+/gate/back_material/daughters/insert box
+/gate/electronics/setMaterial ElectronicBoard
+/gate/electronics/geometry/setXLength 0.5 cm
+/gate/electronics/geometry/setYLength 54.0 cm
+/gate/electronics/geometry/setZLength 40.0 cm
+/gate/electronics/placement/setTranslation -6.32625 0.0 0.0 cm
+/gate/electronics/vis/setColor green
+/gate/electronics/vis/forceWireframe
+/gate/electronics/attachPhantomSD
+/gate/electronics/vis/forceSolid
+```
+After the components of the `SPECThead` have been defined, we can repeat the detector for dual- (or more) head acquisition. 
+In this case we create two SPECTheads in H-mode configuration (180 degrees apart along the Z-axis). Note, positioning the heads in L-mode (90-degree apart) is also feasible. 
 
 ```ruby
 /gate/SPECThead/repeaters/insert ring
 /gate/SPECThead/ring/setRepeatNumber 2
-/gate/SPECThead/ring/setPoint1 0. 0. 0. cm
-/gate/SPECThead/ring/setPoint2 0. 0. 1. cm
+/gate/SPECThead/ring/setPoint1 0.0 0.0 0.0 cm
+/gate/SPECThead/ring/setPoint2 0.0 0.0 1.0 cm
 ```
 
-We now set the orbit speed for SPECT acquisitions. Here we consider 32 projections for each head with an acquisition time of 40 seconds per projection. The orbitting speed here must correspond to the frame time slice set later (see Running the Simulation). Here we set the orbitting about the z axis (where our patient bed will be). 
+We now set the orbit speed for SPECT acquisitions. Here we consider 120 projections/angular steps over 360 degree with an acquisition time of 1 second per projection. This results in 60 views per head. The orbitting speed here must correspond to the frame time slice set later (see Running the Simulation). Here we set the orbitting about the z axis (where our patient bed will be). 
+```ruby
+/gate/SPECThead/moves/insert orbiting
+/gate/SPECThead/orbiting/setSpeed 3.0 deg/s
+/gate/SPECThead/orbiting/setPoint1 0. 0. 0. cm
+/gate/SPECThead/orbiting/setPoint2 0. 0. 1. cm
+```
+To consider 32 projections per head with an acquisition time of 40 seconds per projection. The lines above must be modified as follow,
 
 ```ruby
 /gate/SPECThead/moves/insert orbiting
@@ -212,21 +278,25 @@ We now set the orbit speed for SPECT acquisitions. Here we consider 32 projectio
 /gate/SPECThead/orbiting/setPoint2 0. 0. 1. cm
 ```
 
-### Phantom definition
+### Attenuation phantom definition
 
-Now we define the phantom. Here the phantom is defined at the center of the world.
+Now we define the attenuation phantom. Here the attenuation phantom consists of a Jaszczak voxelized phantom used in SPECT quality control procedures. It is defined in interfile format (unsigned itneger 16 bits) at the center of the 'world' volume.
+We provide the phantoms and Gate macros https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/GATE_MACROS_ Jaszczak.zip. We also provide a phantoms and macros of an actual sup>177</sup>Lu-DOTATATE patient, available here https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/patient_LuDOTATATE_phantoms.zip
+
 ```ruby
 /gate/world/daughters/name voxelPhantom
 /gate/world/daughters/insert ImageNestedParametrisedVolume 
-/gate/voxelPhantom/geometry/setImage ./PathTo/patient15_LuDOTATATE_attn.h33
-/gate/voxelPhantom/geometry/setRangeToMaterialFile ./PathTo/patient15_ID2mat.txt
+/gate/voxelPhantom/geometry/setImage ./PathTo/Attenuation_Jas.h33
+/gate/voxelPhantom/geometry/setRangeToMaterialFile ./PathTo/Attenuation_Jas_Range.dat
 /gate/voxelPhantom/placement/setTranslation  0. 0. 0. cm
 /gate/voxelPhantom/attachPhantomSD
 ```
-The file `patient15_ID2mat.txt` specifies the materials to be assigned to each voxel of the image. The materials in this file must correspond to ones defined a file set with the `/gate/geometry/setMaterialDatabase` command. See https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation#readme for the materials used in this image. Be sure to include `/gate/voxelPhantom/attachPhantomSD` so that all scatter interactions within the phantom are recorded. The number of Compton and Rayleigh events will be recorded throughout all volumes assigned `attachPhantomSD` for any photons absorbed in the crystal. 
+The file `Attenuation_Jas_Range.dat` can be used to assign a given material (defined in the 'GateMaterials.db' file) to each voxel of the image. The materials in this file must correspond to ones defined a file set with the `/gate/geometry/setMaterialDatabase` command. See https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation#readme for the materials used in this image. Be sure to include `/gate/voxelPhantom/attachPhantomSD` so that all scatter interactions within the phantom are recorded. The number of Compton and Rayleigh events will be recorded throughout all volumes assigned `attachPhantomSD` for any photons absorbed in the crystal. 
+
+We kindly refer the users to https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation#readme for a list of digital phantoms available for simulation. The attenuation phantom can also be defined as a series of STL-based objects, we provide several STL-based phantoms [here](https://github.com/BenAuer2021/Mesh-based-Human-Phantom-for-Simulation/edit/main/README.md). This approach has the advantage to enable closer object contouring as the large air volume surrounding any voxelized phantom is not present.
 
 ### Sensitive detectors
-We must now set our crystal as a sensitive volume, so that photon interactions within it will be stored as _hits_ and processed according to the Digitizer set below. 
+We must now set our crystal as a sensitive volume, so that photon interactions within it will be stored as _hits_ and processed according to the Digitizer set below which role is to emulate realistic detection process. 
 
 ```ruby
 ######################## SENSITIVE DETECTORS #########################
@@ -235,7 +305,6 @@ We must now set our crystal as a sensitive volume, so that photon interactions w
 /gate/crystal/attachCrystalSD
 ```
 The line `/gate/crystal/attachCrystalSD` sets this crystal as a _sensitive detector_ which means that _hits_ in this volume are recorded (see the Digitizer section). 
-
 
 ### Digitizer 
 
@@ -251,20 +320,20 @@ For SPECT, digitizers for energy and spatial blurring should be added, based on 
 #### Linear energy resolution
 /gate/digitizer/Singles/blurring/setLaw linear
 /gate/digitizer/Singles/blurring/linear/setResolution 0.10
-/gate/digitizer/Singles/blurring/linear/setEnergyOfReference 159 keV
+/gate/digitizer/Singles/blurring/linear/setEnergyOfReference 159.0 keV
 
 /gate/digitizer/Singles/insert spblurring
-/gate/digitizer/Singles/spblurring/setSpresolution 3. mm       
+/gate/digitizer/Singles/spblurring/setSpresolution 3.0 mm       
 ```
-Other Digitizer modules can be set for e.g. deadtime and thresholding.  Energy windows can also be set to be used for projection output later:
+Other Digitizer modules can be set for e.g. deadtime and thresholding.  Energy windows can also be set to be used for projection output later. For example for I-123 with a 15% energy window,
 ```ruby
 /gate/digitizer/name WindowPhotopeak
 /gate/digitizer/insert singleChain
 /gate/digitizer/WindowPhotopeak/setInputName Singles
 /gate/digitizer/WindowPhotopeak/insert thresholder
-/gate/digitizer/WindowPhotopeak/thresholder/setThreshold 187.2 keV
+/gate/digitizer/WindowPhotopeak/thresholder/setThreshold 143.0 keV
 /gate/digitizer/WindowPhotopeak/insert upholder
-/gate/digitizer/WindowPhotopeak/upholder/setUphold 228.8 keV
+/gate/digitizer/WindowPhotopeak/upholder/setUphold 175.0 keV
 ```
 
 ### Physics, cuts and initialization
@@ -287,9 +356,222 @@ The initialisation step must be performed **after** the geometry, phantom and di
 /gate/run/initialize
 /gate/physics/processList Initialized
 ```
-
-
 ### Source definition
+
+The source image `Activity_Jas.h33` allows simulation of a Jaszczak phantom filled with a uniform concentration of I-123. The gamma emission data is from the IAEA database: https://www-nds.iaea.org/relnsd/vcharthtml/VChartHTML.html.
+Note that this example shows the gamma emissions only, so the simulation output will be missing the X-ray peaks seen in true <sup>123</sup>I spectra. See https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation#readme for more information on this source and other phantoms that can be used for simulation.
+
+```ruby
+#  Voxelised gamma source of 123I
+/gate/source/addSource VS_gamma voxel
+/gate/source/VS_gamma/reader/insert image
+/gate/source/VS_gamma/imageReader/translator/insert linear
+/gate/source/VS_gamma/imageReader/linearTranslator/setScale 0.0000003 Bq
+/gate/source/VS_gamma/imageReader/readFile Activity_Jas.h33
+/gate/source/VS_gamma/imageReader/verbose 1
+/gate/source/VS_gamma/gps/particle gamma
+/gate/source/VS_gamma/gps/ang/type iso
+/gate/source/VS_gamma/gps/ang/mintheta 0.0 deg
+/gate/source/VS_gamma/gps/ang/maxtheta 180.0 deg
+/gate/source/VS_gamma/gps/ang/minphi 0.0  deg
+/gate/source/VS_gamma/gps/ang/maxphi 360.0 deg
+
+# Force unstable
+/gate/source/VS_gamma/setForcedUnstableFlag  true
+# Half life is 0.550958 days
+/gate/source/VS_gamma/setForcedHalfLife 47602.8 s
+/gate/source/VS_gamma/gps/particle    gamma
+/gate/source/VS_gamma/gps/energytype  User
+/gate/source/VS_gamma/gps/histname    energy
+/gate/source/VS_gamma/gps/emin  0.150 MeV
+/gate/source/VS_gamma/gps/emax  1.03663 MeV
+
+# ---------------------------------------------------- #
+/gate/source/VS_gamma/gps/histpoint 0.1589999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.159 83.6
+/gate/source/VS_gamma/gps/histpoint 0.1590001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.17419999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.1742 0.0008
+/gate/source/VS_gamma/gps/histpoint 0.1742001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.18261999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.18262 0.013
+/gate/source/VS_gamma/gps/histpoint 0.18262001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.19069999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.1907 0.0005
+/gate/source/VS_gamma/gps/histpoint 0.19070001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.19217999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.19218 0.0177
+/gate/source/VS_gamma/gps/histpoint 0.19218001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.1972299 0.0
+/gate/source/VS_gamma/gps/histpoint 0.19723 0.00033
+/gate/source/VS_gamma/gps/histpoint 0.19723001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.19822999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.19823 0.0033
+/gate/source/VS_gamma/gps/histpoint 0.19823001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.206799 0.0
+/gate/source/VS_gamma/gps/histpoint 0.2068 0.0033
+/gate/source/VS_gamma/gps/histpoint 0.2068001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.20779999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.2078 0.0011
+/gate/source/VS_gamma/gps/histpoint 0.2078001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.247969999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.24797 0.0693
+/gate/source/VS_gamma/gps/histpoint 0.247970001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.25750999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.25751 0.0015
+/gate/source/VS_gamma/gps/histpoint 0.257510001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.2589999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.259 0.0009
+/gate/source/VS_gamma/gps/histpoint 0.2590001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.27835999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.27836 0.0023
+/gate/source/VS_gamma/gps/histpoint 0.2783001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.28102999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.28103 0.072
+/gate/source/VS_gamma/gps/histpoint 0.28103001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.28531999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.28532 0.0043
+/gate/source/VS_gamma/gps/histpoint 0.28533001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.29518999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.29519 0.001588
+/gate/source/VS_gamma/gps/histpoint 0.29519001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.3293799 0.0
+/gate/source/VS_gamma/gps/histpoint 0.32938 0.0026
+/gate/source/VS_gamma/gps/histpoint 0.32938001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.33069999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.3307 0.0116
+/gate/source/VS_gamma/gps/histpoint 0.3307001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.34372999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.34373 0.0043
+/gate/source/VS_gamma/gps/histpoint 0.34373001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.34635999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.34636 0.12
+/gate/source/VS_gamma/gps/histpoint 0.34636001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.40501999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.40502 0.0027
+/gate/source/VS_gamma/gps/histpoint 0.40502001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.43749999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.4375 0.0008
+/gate/source/VS_gamma/gps/histpoint 0.43750001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.44001999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.44002 0.388
+/gate/source/VS_gamma/gps/histpoint 0.44002001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.45475999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.45476 0.0034
+/gate/source/VS_gamma/gps/histpoint 0.45476001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.50532999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.50533 0.288
+/gate/source/VS_gamma/gps/histpoint 0.50533001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.52896999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.52897 1.27
+/gate/source/VS_gamma/gps/histpoint 0.52897001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.53853999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.53854 0.31
+/gate/source/VS_gamma/gps/histpoint 0.53854001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.55604999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.55605 0.0025
+/gate/source/VS_gamma/gps/histpoint 0.55605001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.56278999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.56279 0.0009
+/gate/source/VS_gamma/gps/histpoint 0.56279001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.57399 0.0
+/gate/source/VS_gamma/gps/histpoint 0.574 0.005852
+/gate/source/VS_gamma/gps/histpoint 0.57401 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.57825999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.57826 0.0016
+/gate/source/VS_gamma/gps/histpoint 0.57826001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.59968999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.59969 0.0026
+/gate/source/VS_gamma/gps/histpoint 0.59969001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.61004999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.61005 0.0011
+/gate/source/VS_gamma/gps/histpoint 0.61005001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.62457999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.62458 0.078
+/gate/source/VS_gamma/gps/histpoint 0.62458001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.62825999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.62826 0.0016
+/gate/source/VS_gamma/gps/histpoint 0.62826001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.68793999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.68794 0.0268
+/gate/source/VS_gamma/gps/histpoint 0.68794001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.73586999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.73587 0.047
+/gate/source/VS_gamma/gps/histpoint 0.73587001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.76084999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.76085 0.00063
+/gate/source/VS_gamma/gps/histpoint 0.76085001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.78359999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.7836 0.053
+/gate/source/VS_gamma/gps/histpoint 0.7836001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.83709999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.8371 0.00047
+/gate/source/VS_gamma/gps/histpoint 0.8371001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.87751999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.87752 0.00072
+/gate/source/VS_gamma/gps/histpoint 0.87752001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.89479999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.8948 0.0007
+/gate/source/VS_gamma/gps/histpoint 0.89480001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.89819999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.8982 0.0006
+/gate/source/VS_gamma/gps/histpoint 0.8982001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 0.90911999 0.0
+/gate/source/VS_gamma/gps/histpoint 0.90912 0.0013
+/gate/source/VS_gamma/gps/histpoint 0.909120001 0.0
+
+/gate/source/VS_gamma/gps/histpoint 1.03662999 0.0
+/gate/source/VS_gamma/gps/histpoint 1.03663 0.00077
+/gate/source/VS_gamma/gps/histpoint 1.03663001 0.0
+
+# THE DEFAULT POSITION OF THE VOXELIZED SOURCE IS IN THE 1ST QUARTER
+# SO THE VOXELIZED SOURCE HAS TO BE SHIFTED OVER HALF ITS DIMENSION IN THE NEGATIVE DIRECTION ON EACH AXIS
+/gate/source/VS_gamma/setPosition -111.794907 -111.3251805 -83.75 mm
+/gate/source/VS_gamma/dump 1
+```
 
 The source image `patient15_LuDOTATATE_src.h33` allows specific activities to be defined separately for the liver, spleen, left and right kidneys and the three tumours. The source model defines the following values: 
 |     Region        |     Voxel value    |     Number   of source voxels    |
@@ -393,7 +675,6 @@ The following example sets a total activity of 235 MBq in the phantom.
 ```
 The first row specifies the number of active regions we want to set. The following rows specify a voxel range to set to an activity (Bq/voxel). For example, here we have 3847.511 Bq/voxel in the spleen which has 1535 source voxels. Therefore we define a total gamma activity of 5.91 MBq. Note that <sup>177</sup>Lu has a total gamma decay branching ratio of  0.172688, so this corresponds to a total activity of <sup>177</sup>Lu  of 34.2 MBq. 
 
-
 ### Output
 
 The ROOT output can be defined as follows 
@@ -413,7 +694,7 @@ where `./PathTo/outputFileName` gives the path and base name for the output root
 /gate/output/root/setRootSinglesSpblurringFlag 0
 ```
 
-We can also write projections directly from the simulation. The energy window for the projection should have been already specified as a thresholder digitizer module: 
+We can also write projections directly from the simulation as interfile images (*.sin *.hdr). The energy window for the projection should have been already specified as a thresholder digitizer module: 
 ```ruby
 /gate/output/projection/enable
 /gate/output/projection/setInputDataName WindowPhotopeak
@@ -437,7 +718,15 @@ First we must set the random engine and its seed. `auto` automatically sets a ra
 /gate/random/verbose 1
 ```
 
-Now we start the simulation. We can specify a time slice, this will be the time for  each head position in step-and-shoot acquitions. In this example we use 40 seconds per projection. We then set a start and stop time. Here we used 32 projections per head so 1280 seconds. 
+Now we start the simulation. We can specify a time slice, this will be the time for  each head position in step-and-shoot acquitions. In this example we define 60 projection of 1 second per head (120 projections in total over 360 degree). To be used with the first orbiting definition above (3 deg/s with head replication along z).
+```ruby
+############################### START ################################
+/gate/application/setTimeSlice      1.0  s
+/gate/application/setTimeStart      0.0    s
+/gate/application/setTimeStop       60.0  s #180 degree 2 heads
+```
+
+In this other example we use 40 seconds per projection. We then set a start and stop time. Here we used 32 projections per head so 1280 seconds. To be used with the first orbiting definition above (0.140625 deg/s with head replication along z).
 
 ```ruby
 ############################### START ################################
@@ -465,97 +754,50 @@ The following commands can be added to a GATE macro to permit visualization in O
 /vis/scene/add/text            0 0 10 cm  20 0 0   Z
 /vis/viewer/set/viewpointThetaPhi 0 0 
 /vis/viewer/set/auxiliaryEdge true
+
+#/vis/viewer/set/viewpointThetaPhi 90 90 # View along Oy
+#/vis/viewer/set/viewpointThetaPhi 90 360 # View along Ox
+/vis/viewer/set/viewpointThetaPhi 0 0 # View along Oz
+
+/vis/viewer/zoom 1.2 # zoom into the scene
+
+/vis/viewer/set/background white # background can be set to white. it is black by default.
+
 ```
 
+### Run the simulation
 
-
-
-## 3. Reconstruction in CASToR
-
-CASToR provides a tool to create a CASToR datafile directly from a GATE macro and root file: `castor-GATErootToCastor`. To use: 
-
-```castor-GATErootToCastor -i path/to/ifile.root -o path/to/outfile -m path/to/macrofile.mac -s scanner_alias -sp_bins bins_x,bins_y``` <br />
-where <br />
-`path/to/ifile.root` is the root output file from Gate <br />
-`path/to/outfile` is the base name to save the CASToR datafile to <br />
-`path/to/macrofile.mac` is the Gate macro file used to generate the root file <br />
-`scanner_alias` corresponds to a `scanner_alias.geom` file in your `castor/config/scanner/` directory.  <br />
-`bins_x,bins_y` are the transaxial and axial number of bins for projections, separated by a comma.
-
-Note that CASToR expects the macro to have units of cm. Comments after commands can also cause issues so make sure all comments are on their own new line. 
-
-The `scanner_alias.geom` file defines the components of your detector. Below is an example for a SPECT system: 
-
+The last command in the .mac file execute the simulation 
 ```ruby
-modality: SPECT_CONVERGENT
-scanner name: SPECT_BRIGHTVIEW
-description: This scanner description is based on an actual scanner, however, this implementation is not supported nor validated by its manufacturer.
-
-number of detector heads: 2
-
-trans number of pixels: 1 # 1 in case of monolythic
-trans pixel size: 540.0 # Given in mm
-trans gap size: 0 # Given in mm
-
-axial number of pixels: 1
-axial pixel size: 400.0 # Given in mm
-axial gap size: 0 # Given in mm
-
-detector depth: 20
-
-# Distance between the center of rotation (COR) of the scanner and the surface of a detection head in mm
-scanner radius: 264.5,264.5 # Head 1 and 2 ROR for patient
-
-# Collimator configuration
-
-head1:
-trans focal model: constant
-trans number of coef model: 1
-trans parameters: 0 # focal distance in mm, 0 for parallel
-axial focal model: constant
-axial number of coef model: 1
-axial parameters: 0
-
-head2:
-trans focal model: constant
-trans number of coef model: 1
-trans parameters: 0 # focal distance in mm, 0 for parallel
-axial focal model: constant
-axial number of coef model: 1
-axial parameters: 0
-
-voxels number transaxial        : 128 # optional (default is the half of the scanner radius)
-voxels number axial                : 128 # optional (default is length of the scanner computed from the given parameters)
-
-field of view transaxial        : 613.7856 # optional (default is the half of the scanner radius)
-field of view axial                : 613.7856 # optional (default is length of the scanner computed from the given parameters)
+ /gate/application/startDAQ
 ```
+To run the simulation, open a terminal prompt, and type `path_to/Gate macro.mac`. To visualize and manipulate the geometry, run via `path_to/Gate --qt macro.mac`.
 
-For the patient SPECT simulation, we set a translation of the `SPECThead` of 450 mm. The center of the SPECThead to center of the colimator is 158.5 mm and the collimator length is 54 mm. Therefore, the radius from COR to the front of collimator is 264.5 mm. 
 
-Another argument `-t` can be provided to use only the true photons (i.e. unscattered), this will give a perfect scatter-corrected image to reconstruct. 
 
-Running ```castor-GATErootToCastor``` executable  will generate a CASToR datafile (.Cdf) and header (.Cdh). The CASToR datafile can then be reconstructed with the `castor-recon` executable. 
 
-The reconstruction can be run by proving `castor-recon` the following arguments: <br />
+### 1.1 Simulated Collimator models in GATE
 
-```
-castor-recon
-[Main options:]
--df castor_datafile.Cdh
--fout output_filename (or can use -dout to give output directory)
--it iterations:subsets e.g. 6:15
--dim dim_x,dim-y,dim_z (Number of voxels in each direction e.g. 128,128,128)
--vox voxel_size_x,voxel_size_y,voxel_size_z (Voxel size in each dimension, in mm)
-[Optional extras:]
--opti MLEM (the optimiser to use, see -help-opti for all options)
--conv parameters;when (give image convolver parameters e.g. gaussian,7.,7.,5.::psf. See castor-recon -help-conv for all options. when states when the colvolver is applied, e.g. in psf) 
--atn linear_attenuation_coefficient.hdr (option to provide header file for linear attenuation image in units of /cm)
--th num_threads (set the number of threads for parallel computing, set to 0 for maximum available)
--proj incrementalSiddon (the projector to be used for forward and back projection Siddon is default, see castor-recon -help-proj for all options)
--vb verbosity (from 0 - no output to 5 - all events)
-```
-The gaussian convolution `gaussian,7.,7.,5.::psf` sets a classic stationary Gaussian kernel with transaxial FWHM 7 mm, axial FWHM 7 mm and 5 sigmas. 
 
-`caator-recon` will write an image and headerfile for each iteration up to the total number specified. 
+<p align="center">
+<img width="429" alt="Screen Shot 2023-06-21 at 3 38 48 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/e4d3e4ef-71ba-4508-9ebf-ec1b22a8c748">
+</p>
+
+<img width="637" alt="Screen Shot 2023-06-21 at 3 39 19 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/f86ad491-ed22-4f57-ac2e-8a0cfff9d2bd">
+
+The LEHR collimators are typically built by folding lead alloy foils, forming double septa on two opposing sides and single septa on the other four sides of the hexagon holes resulting in uneven stopping power. The MEGP and HEGP collimators are built by casting lead, where all six walls are formed by single septa providing a uniform stopping power – except at the vertices of the hexagon.
+
+Another detail to note is that the LEHR hexagon holes are oriented in 90° with respect to the holes of the MEGP and HEGP collimators. Assuming an equal surface area for the collimator plane and the NaI(T1) crystal (540 × 400 mm2), 354 × 350, 146 × 93 and 112 × 72 holes were placed in the LEHR, MEGP and HEGP collimators, occupying 74%, 64%, and 47% (as shown in Table 1) of the collimator volumes, respectively.
+
+The geometry of the SPH collimator was first generated in SolidworksR software (https://www.solidworks.com/) based on the Computer-Aided Design (CAD) drawing provided by the manufacturer and then was converted into the STL format (triangular surface meshes) and imported into GATE.
+
+For modeling the compartments behind the 0.925-cm thick crystal (i.e., back compartment), we followed the “intermediate model” described in (Rault et al., 2011), which represents the compartments as multiple layers and PMTs by a box filled with a mixture of materials. Their study shows that the intermediate model provided the best quantitative (sensitivity and spatial resolution) agreement with the measurements for the I-123 source. Herein, the back compartments consist of a light guide (0.925 cm), PMTs, and electronics, which are enclosed in the lead and aluminum casings as indicated in Figure 2.
+
+
+
+
+
+## 2. SPECT simulation of the Philips BrightView in GATE - <sup>177</sup>Lu-DOTATATE patient 
+
+This section provides an example for setting up a GATE simulation of a SPECT scan for a <sup>177</sup>Lu-DOTATATE patient. 
 
