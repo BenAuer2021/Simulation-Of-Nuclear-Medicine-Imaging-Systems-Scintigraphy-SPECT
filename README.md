@@ -800,15 +800,41 @@ The STL files for the crystal, collimator, and aluminium housing were designed i
 
 The figure below illustrate the differences between primitive and STL-based modeling of the collimator.
 
-![Screen Shot 2023-06-21 at 10 55 43 PM](https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/assets/84809217/fc97d513-6f32-4f29-8228-78fd53da3793)
+<p align="center">
+<img width="900" alt="Screen Shot 2023-06-21 at 10 55 43 PM" src="https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/assets/84809217/fc97d513-6f32-4f29-8228-78fd53da3793">
+</p>
 
 # 6. Simulating bone imaging with the BrightView system in GATE
 
-We provide an example of multi-bed skeletal Tc-99m MDP imaging with the BrightView system equipped with LEHR collimator - 
-The attenuation and activity phantoms were divided into 3 sub phantoms each 40 cm long axially to fit within the axial field of view of the imaging system. This resulted in an improvement in computation efficiency, as simulating the HeadTorsoAbd region of the mesh50 phantom as a whole would not have been efficient as the vast majority of the gammas would be emitted outside of the system field of view. The source and attenuation phantoms were derived from the whole-body skeletal mesh50_XCAT phantom described here: https://github.com/BenAuer2021/Mesh-based-Human-Phantom-for-Simulation .
+We provide an example of multi-bed skeletal Tc-99m MDP imaging with the BrightView system equipped with LEHR collimator - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_BoneImaging.zip .
+The attenuation and activity phantoms were divided into 3 sub phantoms each 40 cm long axially to fit within the axial field of view of the imaging system. This resulted in an improvement in computation efficiency, as simulating the HeadTorsoAbd region of the mesh50 phantom as a whole would not have been efficient as the vast majority of the gammas would be emitted outside of the system field of view. The source and attenuation phantoms were derived from the whole-body skeletal mesh50_XCAT phantom described here: https://github.com/BenAuer2021/Mesh-based-Human-Phantom-for-Simulation . The number of projections was set to 64 over 360 degree, resulting in 32 views per head.
 
+<p align="center">
+<img width="900" alt="Screen Shot 2023-06-22 at 12 59 52 AM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/24485a2a-77b5-414d-a498-3ae77bc0260c">
+</p>
 
+# 7. Simulating brain perfusion and DaT imaging with the BrightView system in GATE
 
+We provide an example of Tc-99m HMPAO brain perfusion imaging with the BrightView system equipped with LEHR collimator and I-123 IMP brain perfusion and I-123 DaT with the BrightView system equipped with MEGP collimator - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_BrainImaging.zip .
+The source and attenuation phantoms are described in details here: https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation .
+
+<p align="center">
+<img width="900" alt="image" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/d1942447-1817-4ef0-ad1b-8b80dc65c254">
+</p>
+
+# 8. Simulating glioblastoma imaging with the BrightView system in GATE
+
+We provide an example of I-131 glioblastoma imaging with the BrightView system equipped with HEGP collimator - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_GlioBlastomaImaging.zip .
+The source and attenuation phantoms are described in details here: https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation .
+
+# 9. Simulating brain perfusion and DaT imaging with the BrightView system incorporating the STL-based mesh50 attenuation phantom in GATE
+
+We provide an example of Tc-99m HMPAO brain perfusion and Tc-99m TRODAT-1 DaT imaging with the BrightView system equipped with LEHR collimator and incorporating the open-source XCAT mesh50 phantom - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_BrainImaging_STL.zip .
+The source and attenuation phantoms based on the mesh50 phantom are described in details here: https://github.com/BenAuer2021/Mesh-based-Human-Phantom-for-Simulation .
+
+<p align="center">
+<img width="900" alt="Screen Shot 2023-06-22 at 1 03 32 AM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/73dc9400-b228-4522-b72e-28ce383a4ff9">
+</p>
 
 
 
