@@ -198,7 +198,7 @@ Now we insert a hexagonal hole of air into the collimator block and repeat it to
 The figure below shows a close-up of the initial hexagonal hole, the hexagonal array after the first repeater and then after the second. 
 ![coll_hole_array](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/09f44bf2-6f94-4138-b0d1-8474dc31d173)
 
-Other detector components, e.g. light guide, PMTs, and electronics, are defined in the same way. 
+Other detector components, e.g. light guide, PMTs, and electronics, are defined in the same way. For modeling the compartments behind the crystal (i.e., back compartment), we used the “intermediate model” described in the paper cited above. The back-compartment is defined via multiple layers and PMTs by a box filled with a mixture of materials as follow,
 
 ```ruby
 # Back Material
@@ -329,13 +329,13 @@ For SPECT, digitizers for energy and spatial blurring should be added, based on 
 ```
 Other Digitizer modules can be set for e.g. deadtime and thresholding.  Energy windows can also be set to be used for projection output later. For example for I-123 with a 15% energy window,
 ```ruby
-/gate/digitizer/name WindowPhotopeak
+/gate/digitizer/name Photopeak
 /gate/digitizer/insert singleChain
-/gate/digitizer/WindowPhotopeak/setInputName Singles
-/gate/digitizer/WindowPhotopeak/insert thresholder
-/gate/digitizer/WindowPhotopeak/thresholder/setThreshold 143.0 keV
-/gate/digitizer/WindowPhotopeak/insert upholder
-/gate/digitizer/WindowPhotopeak/upholder/setUphold 175.0 keV
+/gate/digitizer/Photopeak/setInputName Singles
+/gate/digitizer/Photopeak/insert thresholder
+/gate/digitizer/Photopeak/thresholder/setThreshold 143.0 keV
+/gate/digitizer/Photopeak/insert upholder
+/gate/digitizer/Photopeak/upholder/setUphold 175.0 keV
 ```
 
 ### Physics, cuts and initialization
@@ -699,7 +699,7 @@ where `./PathTo/outputFileName` gives the path and base name for the output root
 We can also write projections directly from the simulation as interfile images (*.sin *.hdr). The energy window for the projection should have been already specified as a thresholder digitizer module: 
 ```ruby
 /gate/output/projection/enable
-/gate/output/projection/setInputDataName WindowPhotopeak
+/gate/output/projection/setInputDataName Photopeak
 /gate/output/projection/setFileName ./PathTo/outputFileName
 /gate/output/projection/projectionPlane YZ
 /gate/output/projection/pixelSizeX 0.234 cm
@@ -794,11 +794,11 @@ The LEHR and LEHR-VXHR were built by folding lead alloy foils, forming double se
 
 We provide one example of planar imaging with the BrightView system in the context of thyroid scintigraphy with single pinhole collimator - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20PINHOLE_Thyroid.zip .
 
-The geometry of the SPH collimator was first generated in SolidworksR software (https://www.solidworks.com/) based on the Computer-Aided Design (CAD) drawing provided by the manufacturer and then was converted into the STL format (triangular surface meshes) and imported into GATE.
+The single pinhole collimator was designed with primitive objects available by default in GATE, and with a combination of primitive and STL-based objects. We provide the GATE macros and required files for both modeling.
 
-<sup>2</sup>
+The STL files for the crystal, collimator, and aluminium housing were designed in [Solidworks]<sup>R</sup> {https://www.solidworks.com/}, and then exported into the STL format (triangular surface meshes).
 
-For modeling the compartments behind the 0.925-cm thick crystal (i.e., back compartment), we followed the “intermediate model” described in (Rault et al., 2011), which represents the compartments as multiple layers and PMTs by a box filled with a mixture of materials. Their study shows that the intermediate model provided the best quantitative (sensitivity and spatial resolution) agreement with the measurements for the I-123 source. Herein, the back compartments consist of a light guide (0.925 cm), PMTs, and electronics, which are enclosed in the lead and aluminum casings as indicated in Figure 2.
+The figure below illustrate the differences between primitive and STL-based modeling of the collimator.
 
 ![Screen Shot 2023-06-21 at 10 55 43 PM](https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/assets/84809217/fc97d513-6f32-4f29-8228-78fd53da3793)
 
