@@ -773,34 +773,30 @@ The last command in the .mac file execute the simulation
 ```
 To run the simulation, open a terminal prompt, and type `path_to/Gate macro.mac`. To visualize and manipulate the geometry, run via `path_to/Gate --qt macro.mac`.
 
-
-
-
 ### 1.1 Simulating the BrightView system equiped with LEHR, LEHR-VXHR, and HEGP collimator in GATE
 
-We also provide a the GATE macros to simulate the BrightView system equiped with other collimators (LEHR, LEHR-VXHR, and HEGP) introduced above https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/GATE_MACROS_ Jaszczak.zip.
+We also provide the GATE macros to simulate the BrightView system equiped with other collimators (LEHR, LEHR-VXHR, and HEGP) introduced above and available for [download](https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/GATE_MACROS_ Jaszczak.zip).
 
-Add figure here and description.
-
-![Screen Shot 2023-06-21 at 9 42 31 PM](https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/3bb590cd-5220-49d3-a80a-6a8d6ff20dca)
-
-![Screen Shot 2023-06-21 at 9 43 34 PM](https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/d6fb49d6-8d52-4b9a-acc8-68c0e54af99f)
-
+The LEHR and LEHR-VXHR were built by folding lead alloy foils, forming double septa on two opposing sides and single septa on the other four sides of the hexagon holes. The MEGP and HEGP collimators are constructed by casting lead, where all six walls are formed by single septa. The LEHR and LEHR-VXHR hexagon holes are oriented in 90° with respect to the holes of the MEGP and HEGP collimators. As shown on the figure below, the LEHR, LEHR-VXHR, MEGP, and HEGP collimators consist of 354 × 350, 230 x 216, 146 × 93 and 112 × 72 holes, respectively. The NaI(T1) detector surface area is 540 × 400 mm<sup>2</sup>.
 
 <p align="center">
-<img width="429" alt="Screen Shot 2023-06-21 at 3 38 48 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/e4d3e4ef-71ba-4508-9ebf-ec1b22a8c748">
+<img width="900" alt="Screen Shot 2023-06-21 at 9 42 31 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/3bb590cd-5220-49d3-a80a-6a8d6ff20dca">
 </p>
 
-<img width="637" alt="Screen Shot 2023-06-21 at 3 39 19 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/f86ad491-ed22-4f57-ac2e-8a0cfff9d2bd">
+<p align="center">
+<img width="900" alt="Screen Shot 2023-06-21 at 10 15 22 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/d9a4a560-72f8-4146-909d-538c5c759d83">
+</p>
 
-The LEHR collimators are typically built by folding lead alloy foils, forming double septa on two opposing sides and single septa on the other four sides of the hexagon holes resulting in uneven stopping power. The MEGP and HEGP collimators are built by casting lead, where all six walls are formed by single septa providing a uniform stopping power – except at the vertices of the hexagon.
 
-Another detail to note is that the LEHR hexagon holes are oriented in 90° with respect to the holes of the MEGP and HEGP collimators. Assuming an equal surface area for the collimator plane and the NaI(T1) crystal (540 × 400 mm2), 354 × 350, 146 × 93 and 112 × 72 holes were placed in the LEHR, MEGP and HEGP collimators, occupying 74%, 64%, and 47% (as shown in Table 1) of the collimator volumes, respectively.
+### 1.1 Simulating the BrightView system equiped with Single-Pinhole collimator in GATE
 
-The geometry of the SPH collimator was first generated in SolidworksR software (https://www.solidworks.com/) based on the Computer-Aided Design (CAD) drawing provided by the manufacturer and then was converted into the STL format (triangular surface meshes) and imported into GATE.
+We provide one [example]{} of planar imaging with the BrightView system in the context of thyroid scintigraphy with single pinhole collimator. The geometry of the SPH collimator was first generated in SolidworksR software (https://www.solidworks.com/) based on the Computer-Aided Design (CAD) drawing provided by the manufacturer and then was converted into the STL format (triangular surface meshes) and imported into GATE.
+
+<sup>2</sup>
 
 For modeling the compartments behind the 0.925-cm thick crystal (i.e., back compartment), we followed the “intermediate model” described in (Rault et al., 2011), which represents the compartments as multiple layers and PMTs by a box filled with a mixture of materials. Their study shows that the intermediate model provided the best quantitative (sensitivity and spatial resolution) agreement with the measurements for the I-123 source. Herein, the back compartments consist of a light guide (0.925 cm), PMTs, and electronics, which are enclosed in the lead and aluminum casings as indicated in Figure 2.
 
+![Screen Shot 2023-06-21 at 10 55 43 PM](https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/assets/84809217/fc97d513-6f32-4f29-8228-78fd53da3793)
 
 ## 2. Simulated Planar Acquisition of the Philips BrightView in GATE
 
