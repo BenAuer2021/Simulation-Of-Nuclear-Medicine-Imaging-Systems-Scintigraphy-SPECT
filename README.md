@@ -1,9 +1,21 @@
 # Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT
 
-Contacts: bauer@bwh.harvard.edu, sophia.pells@umassmed.edu
+These tutorials are developed and maintained by Auer Benjamin from the Brigham and Women's Hospital and Harvard Medical School, Boston, MA, USA, and Pells Sophia from the University of Massachussets Chan Medical School, Worcester, MA, USA.
+
+**Contacts:** Auer, Benjamin Ph.D <bauer@bwh.harvard.edu> and Pells, Sophia Ph.D <Sophia.Pells@umassmed.edu>
+
 
 Table of contents:
-
+```diff
+- 1. Objective
+- 2. Philips BrightView system specification
+- 3 Simulating the BrightView system equiped with LEHR, LEHR-VXHR, and HEGP collimator in GATE
+- 4. Simulating the BrightView system equiped with Single-Pinhole collimator in GATE
+- 5. Simulating bone imaging with the BrightView system in GATE
+- 6. Simulating brain perfusion and DaT imaging with the BrightView system in GATE
+- 7. Simulating glioblastoma imaging with the BrightView system in GATE
+- 8. Simulating brain perfusion and DaT imaging with the BrightView system incorporating the STL-based mesh50 attenuation phantom in GATE
+```
 
 ## 1. Objective
 In this tutorial, we offer a step-by-step walk through on how to build a realistic SPECT/scintigraphy simulation in [GATE source page](http://www.opengatecollaboration.org).  The Philips BrightView system with LEHR-VXHR, LEHR, MEGP, and HEGP parrallel-hole collimators and single-pinhole collimator. 
@@ -775,9 +787,9 @@ The last command in the .mac file execute the simulation
 ```
 To run the simulation, open a terminal prompt, and type `path_to/Gate macro.mac`. To visualize and manipulate the geometry, run via `path_to/Gate --qt macro.mac`.
 
-# 4 Simulating the BrightView system equiped with LEHR, LEHR-VXHR, and HEGP collimator in GATE
+# 3. Simulating the BrightView system equiped with LEHR, LEHR-VXHR, and HEGP collimator in GATE
 
-We also provide the GATE macros to simulate the BrightView system equiped with other collimators (LEHR, LEHR-VXHR, and HEGP) introduced above and available for download : https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20Jaszczak.zip} 
+We also provide the GATE macros to simulate the BrightView system equiped with other collimators (LEHR, LEHR-VXHR, and HEGP) introduced above and available for download : https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20Jaszczak.zip 
 
 The LEHR and LEHR-VXHR were built by folding lead alloy foils, forming double septa on two opposing sides and single septa on the other four sides of the hexagon holes. The MEGP and HEGP collimators are constructed by casting lead, where all six walls are formed by single septa. The LEHR and LEHR-VXHR hexagon holes are oriented in 90° with respect to the holes of the MEGP and HEGP collimators. As shown on the figure below, the LEHR, LEHR-VXHR, MEGP, and HEGP collimators consist of 354 × 350, 230 x 216, 146 × 93 and 112 × 72 holes, respectively. The NaI(T1) detector surface area is 540 × 400 mm<sup>2</sup>.
 
@@ -790,7 +802,7 @@ The LEHR and LEHR-VXHR were built by folding lead alloy foils, forming double se
 </p>
 
 
-# 5. Simulating the BrightView system equiped with Single-Pinhole collimator in GATE
+# 4. Simulating the BrightView system equiped with Single-Pinhole collimator in GATE
 
 We provide one example of planar imaging with the BrightView system in the context of I-123 thyroid scintigraphy with single pinhole collimator - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20PINHOLE_Thyroid.zip .
 
@@ -804,7 +816,7 @@ The figure below illustrate the differences between primitive and STL-based mode
 <img width="900" alt="Screen Shot 2023-06-21 at 10 55 43 PM" src="https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/assets/84809217/fc97d513-6f32-4f29-8228-78fd53da3793">
 </p>
 
-# 6. Simulating bone imaging with the BrightView system in GATE
+# 5. Simulating bone imaging with the BrightView system in GATE
 
 We provide an example of multi-bed skeletal Tc-99m MDP imaging with the BrightView system equipped with LEHR collimator - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_BoneImaging.zip .
 The attenuation and activity phantoms were divided into 3 sub phantoms each 40 cm long axially to fit within the axial field of view of the imaging system. This resulted in an improvement in computation efficiency, as simulating the HeadTorsoAbd region of the mesh50 phantom as a whole would not have been efficient as the vast majority of the gammas would be emitted outside of the system field of view. The source and attenuation phantoms were derived from the whole-body skeletal mesh50_XCAT phantom described here: https://github.com/BenAuer2021/Mesh-based-Human-Phantom-for-Simulation . The number of projections was set to 64 over 360 degree, resulting in 32 views per head.
@@ -813,7 +825,7 @@ The attenuation and activity phantoms were divided into 3 sub phantoms each 40 c
 <img width="900" alt="Screen Shot 2023-06-22 at 12 59 52 AM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/24485a2a-77b5-414d-a498-3ae77bc0260c">
 </p>
 
-# 7. Simulating brain perfusion and DaT imaging with the BrightView system in GATE
+# 6. Simulating brain perfusion and DaT imaging with the BrightView system in GATE
 
 We provide an example of Tc-99m HMPAO brain perfusion imaging with the BrightView system equipped with LEHR collimator and I-123 IMP brain perfusion and I-123 DaT with the BrightView system equipped with MEGP collimator - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_BrainImaging.zip .
 The source and attenuation phantoms are described in details here: https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation .
@@ -822,12 +834,12 @@ The source and attenuation phantoms are described in details here: https://githu
 <img width="900" alt="image" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/d1942447-1817-4ef0-ad1b-8b80dc65c254">
 </p>
 
-# 8. Simulating glioblastoma imaging with the BrightView system in GATE
+# 7. Simulating glioblastoma imaging with the BrightView system in GATE
 
 We provide an example of I-131 glioblastoma imaging with the BrightView system equipped with HEGP collimator - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_GlioBlastomaImaging.zip .
 The source and attenuation phantoms are described in details here: https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation .
 
-# 9. Simulating brain perfusion and DaT imaging with the BrightView system incorporating the STL-based mesh50 attenuation phantom in GATE
+# 8. Simulating brain perfusion and DaT imaging with the BrightView system incorporating the STL-based mesh50 attenuation phantom in GATE
 
 We provide an example of Tc-99m HMPAO brain perfusion and Tc-99m TRODAT-1 DaT imaging with the BrightView system equipped with LEHR collimator and incorporating the open-source XCAT mesh50 phantom - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_BrainImaging_STL.zip .
 The source and attenuation phantoms based on the mesh50 phantom are described in details here: https://github.com/BenAuer2021/Mesh-based-Human-Phantom-for-Simulation .
