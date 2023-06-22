@@ -74,7 +74,9 @@ The positioning of the SPECT head will depend on the acquisition and the phantom
 
 All detector components must be defined relative to the **center** of the `SPECThead` volume. Any translation set in `/gate/SPECThead/placement/setTranslation` will be applied to all components. Therefore, `/gate/SPECThead/placement/setTranslation` is a good way to set the radius of the detector during the acquisition. This is the radius to the center of the `SPECThead` volume, not to the front collimator or touch plate.
 
-Due to the phantom we are using here, a radius of 45 cm was set to avoid overlap between the phantom volume and system components. Using multiple repetitions  of the `SPECThead` (`/gate/SPECThead/ring/setRepeatNumber` below)  and running  the visualization can be useful to check for overlap at all rotation angles as it can be seen in the figure below:
+Due to the phantom we are using here, a radius of 45 cm for the Lu-177 Dotatate example and 40.75 cm for the Jaszczak phantom example was set to avoid overlap between the phantom volume and system components. To obtain the distance from the center of rotation to the collimator surface we need to substract half of the SPECTHead dimension along X. This results in radius of rotation of 26.25 cm and 22 cm for the Lu-177 Dotatate and the the Jaszczak phantom example, respectively.
+
+Using multiple repetitions  of the `SPECThead` (`/gate/SPECThead/ring/setRepeatNumber` below)  and running  the visualization can be useful to check for overlap at all rotation angles as it can be seen in the figure below:
 
 ![Vis_BV_LuPatient_TestOverlap](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/79ec0c40-9a79-4654-9a50-7dcc04983fc7)
 
@@ -775,7 +777,7 @@ To run the simulation, open a terminal prompt, and type `path_to/Gate macro.mac`
 
 ### 1.1 Simulating the BrightView system equiped with LEHR, LEHR-VXHR, and HEGP collimator in GATE
 
-We also provide the GATE macros to simulate the BrightView system equiped with other collimators (LEHR, LEHR-VXHR, and HEGP) introduced above and available for [download]{https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20Jaszczak.zip} 
+We also provide the GATE macros to simulate the BrightView system equiped with other collimators (LEHR, LEHR-VXHR, and HEGP) introduced above and available for download : https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20Jaszczak.zip} 
 
 The LEHR and LEHR-VXHR were built by folding lead alloy foils, forming double septa on two opposing sides and single septa on the other four sides of the hexagon holes. The MEGP and HEGP collimators are constructed by casting lead, where all six walls are formed by single septa. The LEHR and LEHR-VXHR hexagon holes are oriented in 90° with respect to the holes of the MEGP and HEGP collimators. As shown on the figure below, the LEHR, LEHR-VXHR, MEGP, and HEGP collimators consist of 354 × 350, 230 x 216, 146 × 93 and 112 × 72 holes, respectively. The NaI(T1) detector surface area is 540 × 400 mm<sup>2</sup>.
 
@@ -790,7 +792,7 @@ The LEHR and LEHR-VXHR were built by folding lead alloy foils, forming double se
 
 ### 1.1 Simulating the BrightView system equiped with Single-Pinhole collimator in GATE
 
-We provide one [example]{https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20PINHOLE_Thyroid.zip} of planar imaging with the BrightView system in the context of thyroid scintigraphy with single pinhole collimator.
+We provide one example of planar imaging with the BrightView system in the context of thyroid scintigraphy with single pinhole collimator - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20PINHOLE_Thyroid.zip .
 
 The geometry of the SPH collimator was first generated in SolidworksR software (https://www.solidworks.com/) based on the Computer-Aided Design (CAD) drawing provided by the manufacturer and then was converted into the STL format (triangular surface meshes) and imported into GATE.
 
