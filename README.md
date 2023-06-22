@@ -775,7 +775,7 @@ To run the simulation, open a terminal prompt, and type `path_to/Gate macro.mac`
 
 ### 1.1 Simulating the BrightView system equiped with LEHR, LEHR-VXHR, and HEGP collimator in GATE
 
-We also provide the GATE macros to simulate the BrightView system equiped with other collimators (LEHR, LEHR-VXHR, and HEGP) introduced above and available for download https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/GATE_MACROS_ Jaszczak.zip.
+We also provide the GATE macros to simulate the BrightView system equiped with other collimators (LEHR, LEHR-VXHR, and HEGP) introduced above and available for [download]{https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20Jaszczak.zip} 
 
 The LEHR and LEHR-VXHR were built by folding lead alloy foils, forming double septa on two opposing sides and single septa on the other four sides of the hexagon holes. The MEGP and HEGP collimators are constructed by casting lead, where all six walls are formed by single septa. The LEHR and LEHR-VXHR hexagon holes are oriented in 90° with respect to the holes of the MEGP and HEGP collimators. As shown on the figure below, the LEHR, LEHR-VXHR, MEGP, and HEGP collimators consist of 354 × 350, 230 x 216, 146 × 93 and 112 × 72 holes, respectively. The NaI(T1) detector surface area is 540 × 400 mm<sup>2</sup>.
 
@@ -790,7 +790,7 @@ The LEHR and LEHR-VXHR were built by folding lead alloy foils, forming double se
 
 ### 1.1 Simulating the BrightView system equiped with Single-Pinhole collimator in GATE
 
-We provide one example of planar imaging with the BrightView system in the context of thyroid scintigraphy with single pinhole collimator: https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/GATE_MACROS_ PINHOLE_Thyroid .
+We provide one [example]{https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20PINHOLE_Thyroid.zip} of planar imaging with the BrightView system in the context of thyroid scintigraphy with single pinhole collimator.
 
 The geometry of the SPH collimator was first generated in SolidworksR software (https://www.solidworks.com/) based on the Computer-Aided Design (CAD) drawing provided by the manufacturer and then was converted into the STL format (triangular surface meshes) and imported into GATE.
 
