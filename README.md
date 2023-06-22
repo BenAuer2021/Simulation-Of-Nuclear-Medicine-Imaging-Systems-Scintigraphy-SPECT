@@ -773,11 +773,19 @@ The last command in the .mac file execute the simulation
 ```
 To run the simulation, open a terminal prompt, and type `path_to/Gate macro.mac`. To visualize and manipulate the geometry, run via `path_to/Gate --qt macro.mac`.
 
+
+
+
 ### 1.1 Simulating the BrightView system equiped with LEHR, LEHR-VXHR, and HEGP collimator in GATE
 
 We also provide a the GATE macros to simulate the BrightView system equiped with other collimators (LEHR, LEHR-VXHR, and HEGP) introduced above https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/GATE_MACROS_ Jaszczak.zip.
 
 Add figure here and description.
+
+![Screen Shot 2023-06-21 at 9 42 31 PM](https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/3bb590cd-5220-49d3-a80a-6a8d6ff20dca)
+
+![Screen Shot 2023-06-21 at 9 43 34 PM](https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/d6fb49d6-8d52-4b9a-acc8-68c0e54af99f)
+
 
 <p align="center">
 <img width="429" alt="Screen Shot 2023-06-21 at 3 38 48 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/e4d3e4ef-71ba-4508-9ebf-ec1b22a8c748">
