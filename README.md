@@ -775,7 +775,7 @@ The last command in the .mac file execute the simulation
 ```
 To run the simulation, open a terminal prompt, and type `path_to/Gate macro.mac`. To visualize and manipulate the geometry, run via `path_to/Gate --qt macro.mac`.
 
-### 1.1 Simulating the BrightView system equiped with LEHR, LEHR-VXHR, and HEGP collimator in GATE
+# 4 Simulating the BrightView system equiped with LEHR, LEHR-VXHR, and HEGP collimator in GATE
 
 We also provide the GATE macros to simulate the BrightView system equiped with other collimators (LEHR, LEHR-VXHR, and HEGP) introduced above and available for download : https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20Jaszczak.zip} 
 
@@ -790,9 +790,9 @@ The LEHR and LEHR-VXHR were built by folding lead alloy foils, forming double se
 </p>
 
 
-### 1.1 Simulating the BrightView system equiped with Single-Pinhole collimator in GATE
+# 5. Simulating the BrightView system equiped with Single-Pinhole collimator in GATE
 
-We provide one example of planar imaging with the BrightView system in the context of thyroid scintigraphy with single pinhole collimator - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20PINHOLE_Thyroid.zip .
+We provide one example of planar imaging with the BrightView system in the context of I-123 thyroid scintigraphy with single pinhole collimator - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20PINHOLE_Thyroid.zip .
 
 The single pinhole collimator was designed with primitive objects available by default in GATE, and with a combination of primitive and STL-based objects. We provide the GATE macros and required files for both modeling.
 
@@ -802,13 +802,15 @@ The figure below illustrate the differences between primitive and STL-based mode
 
 ![Screen Shot 2023-06-21 at 10 55 43 PM](https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/assets/84809217/fc97d513-6f32-4f29-8228-78fd53da3793)
 
-## 2. Simulated Planar Acquisition of the Philips BrightView in GATE
+# 6. Simulating bone imaging with the BrightView system in GATE
 
-Thyroid and Bone scan here example
+We provide an example of multi-bed skeletal Tc-99m MDP imaging with the BrightView system equipped with LEHR collimator - 
+The attenuation and activity phantoms were divided into 3 sub phantoms each 40 cm long axially to fit within the axial field of view of the imaging system. This resulted in an improvement in computation efficiency, as simulating the HeadTorsoAbd region of the mesh50 phantom as a whole would not have been efficient as the vast majority of the gammas would be emitted outside of the system field of view. The source and attenuation phantoms were derived from the whole-body skeletal mesh50_XCAT phantom described here: https://github.com/BenAuer2021/Mesh-based-Human-Phantom-for-Simulation .
 
-This section provides an example for setting up a GATE simulation of a SPECT scan for a <sup>177</sup>Lu-DOTATATE patient. 
 
-## 3. SPECT Simulation of the Philips BrightView in GATE
 
-Multi-bed acquisition Bone here 
+
+
+
+
 
