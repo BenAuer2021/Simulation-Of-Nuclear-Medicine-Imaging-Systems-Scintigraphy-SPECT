@@ -790,7 +790,7 @@ The LEHR and LEHR-VXHR were built by folding lead alloy foils, forming double se
 
 ### 1.1 Simulating the BrightView system equiped with Single-Pinhole collimator in GATE
 
-We provide one [example]{} of planar imaging with the BrightView system in the context of thyroid scintigraphy with single pinhole collimator. The geometry of the SPH collimator was first generated in SolidworksR software (https://www.solidworks.com/) based on the Computer-Aided Design (CAD) drawing provided by the manufacturer and then was converted into the STL format (triangular surface meshes) and imported into GATE.
+We provide one [example]{https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/GATE_MACROS_ PINHOLE_Thyroid} of planar imaging with the BrightView system in the context of thyroid scintigraphy with single pinhole collimator. The geometry of the SPH collimator was first generated in SolidworksR software (https://www.solidworks.com/) based on the Computer-Aided Design (CAD) drawing provided by the manufacturer and then was converted into the STL format (triangular surface meshes) and imported into GATE.
 
 <sup>2</sup>
 
