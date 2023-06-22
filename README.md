@@ -281,7 +281,7 @@ To consider 32 projections per head with an acquisition time of 40 seconds per p
 ### Attenuation phantom definition
 
 Now we define the attenuation phantom. Here the attenuation phantom consists of a Jaszczak voxelized phantom used in SPECT quality control procedures. It is defined in interfile format (unsigned itneger 16 bits) at the center of the 'world' volume.
-We provide the phantoms and Gate macros https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/GATE_MACROS_ Jaszczak.zip. We also provide a phantoms and macros of an actual sup>177</sup>Lu-DOTATATE patient, available here https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/patient_LuDOTATATE_phantoms.zip
+We provide the phantoms and Gate macros https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20Jaszczak.zip. We also provide a phantoms and macros of an actual sup>177</sup>Lu-DOTATATE patient, available here https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/patient_LuDOTATATE_phantoms.zip
 
 ```ruby
 /gate/world/daughters/name voxelPhantom
