@@ -15,6 +15,7 @@ Table of contents:
 - 6. Simulating brain perfusion and DaT imaging with the BrightView system in GATE
 - 7. Simulating glioblastoma imaging with the BrightView system in GATE
 - 8. Simulating brain perfusion and DaT imaging with the BrightView system incorporating the STL-based mesh50 attenuation phantom in GATE
+-9. Simulating a Lu-177 DOTATATE post-therapy SPECT with the BrightView system in GATE
 ```
 
 ## 1. Objective
@@ -847,6 +848,12 @@ The source and attenuation phantoms based on the mesh50 phantom are described in
 <p align="center">
 <img width="900" alt="Screen Shot 2023-06-22 at 1 03 32 AM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/73dc9400-b228-4522-b72e-28ce383a4ff9">
 </p>
+
+# 9. Simulating a Lu-177 DOTATATE post-therapy SPECT with the BrightView system in GATE
+
+We provide an example of a post Lu-177 DOTATATE therapy SPECT  with the BrightView system equipped with MEGP collimators - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_LuDOTATE_SPECT.zip. The source and attenuation phantoms are described in details here: https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation.
+
+![LuPatientSPECT_xsec](https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/2ed6b42b-a930-4bcb-a37c-4330bc9d07c2)
 
 
 
