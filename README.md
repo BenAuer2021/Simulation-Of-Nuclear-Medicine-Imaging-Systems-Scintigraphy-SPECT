@@ -9,13 +9,13 @@ Table of contents:
 ```diff
 - 1. Objective
 - 2. Philips BrightView system specification
-- 3 Simulating the BrightView system equiped with LEHR, LEHR-VXHR, and HEGP collimator in GATE
+- 3. Simulating the BrightView system equiped with LEHR, LEHR-VXHR, and HEGP collimator in GATE
 - 4. Simulating the BrightView system equiped with Single-Pinhole collimator in GATE
 - 5. Simulating bone imaging with the BrightView system in GATE
 - 6. Simulating brain perfusion and DaT imaging with the BrightView system in GATE
 - 7. Simulating glioblastoma imaging with the BrightView system in GATE
 - 8. Simulating brain perfusion and DaT imaging with the BrightView system incorporating the STL-based mesh50 attenuation phantom in GATE
--9. Simulating a Lu-177 DOTATATE post-therapy SPECT with the BrightView system in GATE
+- 9. Simulating a Lu-177 DOTATATE post-therapy SPECT with the BrightView system in GATE
 ```
 
 ## 1. Objective
@@ -81,13 +81,13 @@ Next we must define our detector and its components. For SPECT, we must define a
 /gate/SPECThead/setMaterial Air
 /gate/SPECThead/vis/setColor cyan
 ```
-The `SPECThead` volume **must** be large enough to include all components of the system (including collimators or shielding) and can include the phantom as well to enable close contouring. The `SPECThead` volume must not cover any part of the source or phantom. Any shielding material outside the `SPECThead` volume will be ignored in the simulation (i.e. photons will pass straight through). The `SPECThead` is shown as a cyan wire frame in Figure 1. Visualization commands e.g. `/vis/setColor' can be set for all volumes, but visualization will only occur when a viewer is specified (see Visualization section below). 
+The `SPECThead` volume **must** be large enough to include all components of the system (including collimators or shielding) and can include the phantom as well to enable close contouring. However, the `SPECThead` volume should not cover any part of the source. Any shielding material outside the `SPECThead` volume will be ignored in the simulation (i.e. photons will pass straight through). The `SPECThead` is shown as a cyan wire frame in Figure 1. Visualization commands e.g. `/vis/setColor' can be set for all volumes, but visualization will only occur when a viewer is specified (see Visualization section below). 
 
 The positioning of the SPECT head will depend on the acquisition and the phantom that is used. The hierarchical structure of GATE means that any phantom volume will overwrite any SPECThead volume in the same position, this includes any air around the corners of a voxelised phantom. 
 
 All detector components must be defined relative to the **center** of the `SPECThead` volume. Any translation set in `/gate/SPECThead/placement/setTranslation` will be applied to all components. Therefore, `/gate/SPECThead/placement/setTranslation` is a good way to set the radius of the detector during the acquisition. This is the radius to the center of the `SPECThead` volume, not to the front collimator or touch plate.
 
-Due to the phantom we are using here, a radius of 45 cm for the Lu-177 Dotatate example and 40.75 cm for the Jaszczak phantom example was set to avoid overlap between the phantom volume and system components. To obtain the distance from the center of rotation to the collimator surface we need to substract half of the SPECTHead dimension along X. This results in radius of rotation of 26.25 cm and 22 cm for the Lu-177 Dotatate and the the Jaszczak phantom example, respectively.
+In the following examples, a radius of 45 cm for the Lu-177 Dotatate example and 40.75 cm for the Jaszczak phantom example was set to avoid overlap between the phantom volume and system components. To obtain the distance from the center of rotation to the collimator surface we need to substract half of the SPECTHead dimension along X. This results in radius of rotation of 26.25 cm and 22 cm for the Lu-177 Dotatate and the  Jaszczak phantom example, respectively.
 
 Using multiple repetitions  of the `SPECThead` (`/gate/SPECThead/ring/setRepeatNumber` below)  and running  the visualization can be useful to check for overlap at all rotation angles as it can be seen in the figure below:
 
@@ -295,8 +295,8 @@ To consider 32 projections per head with an acquisition time of 40 seconds per p
 
 ### Attenuation phantom definition
 
-Now we define the attenuation phantom. Here the attenuation phantom consists of a Jaszczak voxelized phantom used in SPECT quality control procedures. It is defined in interfile format (unsigned itneger 16 bits) at the center of the 'world' volume.
-We provide the phantoms and Gate macros https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20Jaszczak.zip. We also provide a phantoms and macros of an actual sup>177</sup>Lu-DOTATATE patient, available here https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/patient_LuDOTATATE_phantoms.zip
+Now we define the attenuation phantom. Here the attenuation phantom consists of a Jaszczak voxelized phantom used in SPECT quality control procedures. It is defined in interfile format (unsigned integer 16 bits) at the center of the 'world' volume.
+We provide the phantoms and GATE macros for the Jaszczak phantom here https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20Jaszczak.zip. We also provide a phantoms and macros of an actual sup>177</sup>Lu-DOTATATE patient, available here https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/patient_LuDOTATATE_phantoms.zip
 
 ```ruby
 /gate/world/daughters/name voxelPhantom
@@ -782,7 +782,7 @@ The following commands can be added to a GATE macro to permit visualization in O
 
 ### Run the simulation
 
-The last command in the .mac file execute the simulation 
+The last command in the .mac file executes the simulation 
 ```ruby
  /gate/application/startDAQ
 ```
@@ -792,7 +792,7 @@ To run the simulation, open a terminal prompt, and type `path_to/Gate macro.mac`
 
 We also provide the GATE macros to simulate the BrightView system equiped with other collimators (LEHR, LEHR-VXHR, and HEGP) introduced above and available for download : https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20Jaszczak.zip 
 
-The LEHR and LEHR-VXHR were built by folding lead alloy foils, forming double septa on two opposing sides and single septa on the other four sides of the hexagon holes. The MEGP and HEGP collimators are constructed by casting lead, where all six walls are formed by single septa. The LEHR and LEHR-VXHR hexagon holes are oriented in 90° with respect to the holes of the MEGP and HEGP collimators. As shown on the figure below, the LEHR, LEHR-VXHR, MEGP, and HEGP collimators consist of 354 × 350, 230 x 216, 146 × 93 and 112 × 72 holes, respectively. The NaI(T1) detector surface area is 540 × 400 mm<sup>2</sup>.
+The LEHR and LEHR-VXHR were built by folding lead alloy foils, forming double septa on two opposing sides and single septa on the other four sides of the hexagonal holes. The MEGP and HEGP collimators are constructed by casting lead, where all six walls are formed by single septa. The LEHR and LEHR-VXHR hexagon holes are oriented in 90° with respect to the holes of the MEGP and HEGP collimators. As shown on the figure below, the LEHR, LEHR-VXHR, MEGP, and HEGP collimators consist of 354 × 350, 230 x 216, 146 × 93 and 112 × 72 holes, respectively. The NaI(T1) detector surface area is 540 × 400 mm<sup>2</sup>.
 
 <p align="center">
 <img width="900" alt="Screen Shot 2023-06-21 at 9 42 31 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/3bb590cd-5220-49d3-a80a-6a8d6ff20dca">
@@ -807,7 +807,7 @@ The LEHR and LEHR-VXHR were built by folding lead alloy foils, forming double se
 
 We provide one example of planar imaging with the BrightView system in the context of I-123 thyroid scintigraphy with single pinhole collimator - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20PINHOLE_Thyroid.zip .
 
-The single pinhole collimator was designed with primitive objects available by default in GATE, and with a combination of primitive and STL-based objects. We provide the GATE macros and required files for both modeling.
+The single pinhole collimator was designed with primitive objects available by default in GATE, and with a combination of primitive and STL-based objects. We provide the GATE macros and required files for both models.
 
 The STL files for the crystal, collimator, and aluminium housing were designed in [Solidworks]<sup>R</sup> {https://www.solidworks.com/}, and then exported into the STL format (triangular surface meshes).
 
