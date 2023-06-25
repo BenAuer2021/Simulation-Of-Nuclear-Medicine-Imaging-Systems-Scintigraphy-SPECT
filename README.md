@@ -9,7 +9,7 @@ Table of contents:
 ```diff
 - 1. Objective
 - 2. Philips BrightView system specification
-- 3. Simulating the BrightView system equiped with LEHR, LEHR-VXHR, and HEGP collimator in GATE
+- 3. Simulating the BrightView system equiped with LEHR, LEHR-VXHR, MEGP and HEGP collimator in GATE
 - 4. Simulating the BrightView system equiped with Single-Pinhole collimator in GATE
 - 5. Simulating bone imaging with the BrightView system in GATE
 - 6. Simulating brain perfusion and DaT imaging with the BrightView system in GATE
@@ -788,7 +788,7 @@ The last command in the .mac file executes the simulation
 ```
 To run the simulation, open a terminal prompt, and type `path_to/Gate macro.mac`. To visualize and manipulate the geometry, run via `path_to/Gate --qt macro.mac`.
 
-# 3. Simulating the BrightView system equiped with LEHR, LEHR-VXHR, and HEGP collimator in GATE
+# 3. Simulating the BrightView system equiped with LEHR, LEHR-VXHR, MEGP and HEGP collimator in GATE
 
 We also provide the GATE macros to simulate the BrightView system equiped with other collimators (LEHR, LEHR-VXHR, and HEGP) introduced above and available for download : https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20Jaszczak.zip 
 
