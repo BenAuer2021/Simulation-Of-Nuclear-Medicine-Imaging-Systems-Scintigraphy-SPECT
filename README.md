@@ -2,7 +2,7 @@
 
 These tutorials are developed and maintained by Auer Benjamin from the Brigham and Women's Hospital and Harvard Medical School, Boston, MA, USA, and Pells Sophia from the University of Massachussets Chan Medical School, Worcester, MA, USA.
 
-**Contacts:** Auer, Benjamin Ph.D <bauer@bwh.harvard.edu> and Pells, Sophia Ph.D <Sophia.Pells@umassmed.edu>
+**Contact:** Auer, Benjamin Ph.D <bauer@bwh.harvard.edu>
 
 
 Table of contents:
