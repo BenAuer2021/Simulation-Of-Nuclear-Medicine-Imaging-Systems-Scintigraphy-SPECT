@@ -61,7 +61,7 @@ The first step is to define the world and set the path to the file which defines
 /gate/world/vis/setColor green
 /gate/world/setMaterial Air
 ```
-The world defines the experimental framework of the simulation. It must be large enough to contain the entire SPECT system and phantom. The tracking of particles is stopped once they leave the `world`. The `world` is shown as a green wire frame in the visualization of the simulation shown in Figure 1. `GateMaterials.db' must contain all elemental compositions and densities of materials which are defined later in the macro. 
+The world defines the experimental framework of the simulation. It must be large enough to contain the entire SPECT system and phantom. The tracking of particles is stopped once they leave the `world`. The `world` is shown as a green wire frame in the visualization of the simulation shown in Figure 1. `GateMaterials.db` must contain all elemental compositions and densities of materials which are defined later in the macro. 
 
 ![Vis_BV_LuPatient](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/0995922f-eeda-4069-9f25-926ca7a8e76c)
 <br /> Figure 1: Visualisation of the simulation discussed in this Section. 
@@ -81,7 +81,7 @@ Next we must define our detector and its components. For SPECT, we must define a
 /gate/SPECThead/setMaterial Air
 /gate/SPECThead/vis/setColor cyan
 ```
-The `SPECThead` volume **must** be large enough to include all components of the system (including collimators or shielding) and can include the phantom as well to enable close contouring. However, the `SPECThead` volume should not cover any part of the source. Any shielding material outside the `SPECThead` volume will be ignored in the simulation (i.e. photons will pass straight through). The `SPECThead` is shown as a cyan wire frame in Figure 1. Visualization commands e.g. `/vis/setColor' can be set for all volumes, but visualization will only occur when a viewer is specified (see Visualization section below). 
+The `SPECThead` volume **must** be large enough to include all components of the system (including collimators or shielding) and can include the phantom as well to enable close contouring. However, the `SPECThead` volume should not cover any part of the source. Any shielding material outside the `SPECThead` volume will be ignored in the simulation (i.e. photons will pass straight through). The `SPECThead` is shown as a cyan wire frame in Figure 1. Visualization commands e.g. `/vis/setColor` can be set for all volumes, but visualization will only occur when a viewer is specified (see Visualization section below). 
 
 The positioning of the SPECT head will depend on the acquisition and the phantom that is used. The hierarchical structure of GATE means that any phantom volume will overwrite any SPECThead volume in the same position, this includes any air around the corners of a voxelised phantom. 
 
@@ -180,7 +180,7 @@ Next, we will define the collimator. These will be the MEGP collimators of the P
 /gate/collimator/vis/forceSolid
 /gate/collimator/attachPhantomSD
 ```
-`alignToX` reorients the block along the x-axis (such that the patient bed is on the z axis). It is similar to perform a 2D 90-degree rotation along the X-axis (setRotationAxis 1 0 0 / setRotationAngle 90 deg).
+`alignToX` reorients the block along the x-axis (such that the patient bed is on the z axis). It is similar to perform a 2D 90-degree rotation along the X-axis (`setRotationAxis 1 0 0` / `setRotationAngle 90 deg`).
 
 Now we insert a hexagonal hole of air into the collimator block and repeat it to create the array. Note that we have to rotate the hole by 90 degrees to orientate it correctly with the block. 
 
@@ -295,7 +295,7 @@ To consider 32 projections per head with an acquisition time of 40 seconds per p
 
 ### Attenuation phantom definition
 
-Now we define the attenuation phantom. Here the attenuation phantom consists of a Jaszczak voxelized phantom used in SPECT quality control procedures. It is defined in interfile format (unsigned integer 16 bits) at the center of the 'world' volume.
+Now we define the attenuation phantom. Here the attenuation phantom consists of a Jaszczak voxelized phantom used in SPECT quality control procedures. It is defined in interfile format (unsigned integer 16 bits) at the center of the world` volume.
 We provide the phantoms and GATE macros for the Jaszczak phantom here https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_%20Jaszczak.zip. We also provide a phantoms and macros of an actual sup>177</sup>Lu-DOTATATE patient, available here https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/blob/main/patient_LuDOTATATE_phantoms.zip
 
 ```ruby
