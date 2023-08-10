@@ -209,7 +209,7 @@ Now we insert a hexagonal hole of air into the collimator block and repeat it to
 ```
 
 The figure below shows a close-up of the initial hexagonal hole, the hexagonal array after the first repeater and then after the second. 
-![coll_hole_array](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/09f44bf2-6f94-4138-b0d1-8474dc31d173)
+![coll_hole_array](https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/3ee2a524-d8f1-4feb-8350-bbe543a23a3d)
 
 Other detector components, e.g. light guide, PMTs, and electronics, are defined in the same way. For modeling the compartments behind the crystal (i.e., back compartment), we used the “intermediate model” described in the paper cited above. The back-compartment is defined via multiple layers and PMTs by a box filled with a mixture of materials as follow,
 
