@@ -3,7 +3,7 @@
 These tutorials are developed and maintained by Auer Benjamin from the Brigham and Women's Hospital and Harvard Medical School, Boston, MA, USA, and Pells Sophia from the University of Massachussets Chan Medical School, Worcester, MA, USA.
 
 **Contact:** Auer, Benjamin Ph.D <bauer@bwh.harvard.edu>
-
+Pells, Sophia Ph.D. <sophia.pells@umassmed.edu>
 
 Table of contents:
 ```diff
@@ -853,7 +853,7 @@ The source and attenuation phantoms based on the mesh50 phantom are described in
 
 We provide an example of a post Lu-177 DOTATATE therapy SPECT  with the BrightView system equipped with MEGP collimators - https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/blob/main/GATE_MACROS_LuDOTATE_SPECT.zip. The source and attenuation phantoms are described in details here: https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation.
 
-![LuPatientSPECT_xsec](https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/2ed6b42b-a930-4bcb-a37c-4330bc9d07c2)
+![LuPatientSPECT_xsec](https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/c85de4e9-b81c-429e-bdf5-d3ec43f48185)
 
 
 
