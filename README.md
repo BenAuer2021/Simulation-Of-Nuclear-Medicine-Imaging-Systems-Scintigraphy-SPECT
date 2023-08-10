@@ -63,7 +63,7 @@ The first step is to define the world and set the path to the file which defines
 ```
 The world defines the experimental framework of the simulation. It must be large enough to contain the entire SPECT system and phantom. The tracking of particles is stopped once they leave the `world`. The `world` is shown as a green wire frame in the visualization of the simulation shown in Figure 1. `GateMaterials.db` must contain all elemental compositions and densities of materials which are defined later in the macro. 
 
-![Vis_BV_LuPatient](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/0995922f-eeda-4069-9f25-926ca7a8e76c)
+![Vis_BV_LuPatient](https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/5caa073c-bf02-42e0-ba69-dadf2c297281)
 <br /> Figure 1: Visualisation of the simulation discussed in this Section. 
 
 ### Define the system geometry
@@ -91,8 +91,7 @@ In the following examples, a radius of 45 cm for the Lu-177 Dotatate example and
 
 Using multiple repetitions  of the `SPECThead` (`/gate/SPECThead/ring/setRepeatNumber` below)  and running  the visualization can be useful to check for overlap at all rotation angles as it can be seen in the figure below:
 
-![Vis_BV_LuPatient_TestOverlap](https://github.com/BenAuer2021/Simulation-And-Reconstruction-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/79ec0c40-9a79-4654-9a50-7dcc04983fc7)
-
+![Vis_BV_LuPatient_TestOverlap](https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/a2fa8280-9a34-4e19-b914-9caa0316059d)
 Now we define the components within the `SPECThead`. We will start with the NaI(Tl) crystal and its cover.
 
 ```ruby 
