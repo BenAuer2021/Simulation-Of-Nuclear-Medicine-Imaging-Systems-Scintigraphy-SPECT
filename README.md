@@ -91,7 +91,8 @@ In the following examples, a radius of 45 cm for the Lu-177 Dotatate example and
 
 Using multiple repetitions  of the `SPECThead` (`/gate/SPECThead/ring/setRepeatNumber` below)  and running  the visualization can be useful to check for overlap at all rotation angles as it can be seen in the figure below:
 
-![Vis_BV_LuPatient_TestOverlap](https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/a2fa8280-9a34-4e19-b914-9caa0316059d)
+![Vis_BV_LuPatient_TestOverlap](https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/55833314/20330a76-49e1-4656-aed6-2a5be092d86f)
+
 Now we define the components within the `SPECThead`. We will start with the NaI(Tl) crystal and its cover.
 
 ```ruby 
