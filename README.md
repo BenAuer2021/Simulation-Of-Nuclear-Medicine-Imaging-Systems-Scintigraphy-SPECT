@@ -832,7 +832,7 @@ We provide an example of Tc-99m HMPAO brain perfusion imaging with the BrightVie
 The source and attenuation phantoms are described in details here: https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation .
 
 <p align="center">
-<img width="900" alt="image" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/d1942447-1817-4ef0-ad1b-8b80dc65c254">
+<img width="471" alt="Screen Shot 2023-08-16 at 5 26 38 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/077ecbbb-b3ef-4671-8733-b0b2f19b691b">
 </p>
 
 # 7. Simulating glioblastoma imaging with the BrightView system in GATE
@@ -846,7 +846,7 @@ We provide an example of Tc-99m HMPAO brain perfusion and Tc-99m TRODAT-1 DaT im
 The source and attenuation phantoms based on the mesh50 phantom are described in details here: https://github.com/BenAuer2021/Mesh-based-Human-Phantom-for-Simulation .
 
 <p align="center">
-<img width="900" alt="Screen Shot 2023-06-22 at 1 03 32 AM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/73dc9400-b228-4522-b72e-28ce383a4ff9">
+<img width="772" alt="Screen Shot 2023-08-16 at 5 27 20 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/64cc90e5-39af-42c6-8e33-037ba48b089a">
 </p>
 
 # 9. Simulating a Lu-177 DOTATATE post-therapy SPECT with the BrightView system in GATE
