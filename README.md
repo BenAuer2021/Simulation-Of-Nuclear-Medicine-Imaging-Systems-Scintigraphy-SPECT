@@ -35,7 +35,7 @@ The collimator specifications adapted from the manufacturer's specification can 
 | Septal thickness (mm)    | 0.152 | 0.152 | 0.86 | 1.73 | N/A |    
 
 <p align="center">
-<img width="277" alt="Screen Shot 2023-06-21 at 3 51 33 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/367a83e8-999e-47eb-a075-0ce890336acf">
+<img width="1011" alt="Screen Shot 2023-08-16 at 5 21 56 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/1ee4b82d-eda3-4cc1-b59f-ae5269b4add7">
 </p>
 
 The detector consists of a 9.5-mm thick NaI(Tl) inorganic scintillator located at 3.5, 6.2, and 6.64 mm behind the surface of the collimator for the LEHR, LEHR-VXHR, MEGP/HEGP, respectively. The crystal dimension is 540 (transaxial) by 400 (axial) mm<sup>2</sup>.
