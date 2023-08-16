@@ -795,13 +795,12 @@ We also provide the GATE macros to simulate the BrightView system equiped with o
 The LEHR and LEHR-VXHR were built by folding lead alloy foils, forming double septa on two opposing sides and single septa on the other four sides of the hexagonal holes. The MEGP and HEGP collimators are constructed by casting lead, where all six walls are formed by single septa. The LEHR and LEHR-VXHR hexagon holes are oriented in 90° with respect to the holes of the MEGP and HEGP collimators. As shown on the figure below, the LEHR, LEHR-VXHR, MEGP, and HEGP collimators consist of 354 × 350, 230 x 216, 146 × 93 and 112 × 72 holes, respectively. The NaI(T1) detector surface area is 540 × 400 mm<sup>2</sup>.
 
 <p align="center">
-<img width="900" alt="Screen Shot 2023-06-21 at 9 42 31 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/3bb590cd-5220-49d3-a80a-6a8d6ff20dca">
+<img width="974" alt="Screen Shot 2023-08-16 at 5 13 14 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/a026e85c-8152-4963-8ae2-61921df21f9a">
 </p>
 
 <p align="center">
-<img width="900" alt="Screen Shot 2023-06-21 at 10 15 22 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/d9a4a560-72f8-4146-909d-538c5c759d83">
+<img width="615" alt="Screen Shot 2023-08-16 at 5 13 38 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/0837309c-7e72-4f38-b24a-7e355ca5b6ff">
 </p>
-
 
 # 4. Simulating the BrightView system equiped with Single-Pinhole collimator in GATE
 
@@ -814,8 +813,9 @@ The STL files for the crystal, collimator, and aluminium housing were designed i
 The figure below illustrate the differences between primitive and STL-based modeling of the collimator.
 
 <p align="center">
-<img width="900" alt="Screen Shot 2023-06-21 at 10 55 43 PM" src="https://github.com/BenAuer2021/Phantoms-For-Nuclear-Medicine-Imaging-Simulation/assets/84809217/fc97d513-6f32-4f29-8228-78fd53da3793">
+<img width="555" alt="Screen Shot 2023-08-16 at 5 14 51 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/0cf7213c-6d7b-4bd5-9017-730d44c372e5">
 </p>
+
 
 # 5. Simulating bone imaging with the BrightView system in GATE
 
@@ -823,7 +823,7 @@ We provide an example of multi-bed skeletal Tc-99m MDP imaging with the BrightVi
 The attenuation and activity phantoms were divided into 3 sub phantoms each 40 cm long axially to fit within the axial field of view of the imaging system. This resulted in an improvement in computation efficiency, as simulating the HeadTorsoAbd region of the mesh50 phantom as a whole would not have been efficient as the vast majority of the gammas would be emitted outside of the system field of view. The source and attenuation phantoms were derived from the whole-body skeletal mesh50_XCAT phantom described here: https://github.com/BenAuer2021/Mesh-based-Human-Phantom-for-Simulation . The number of projections was set to 64 over 360 degree, resulting in 32 views per head.
 
 <p align="center">
-<img width="900" alt="Screen Shot 2023-06-22 at 12 59 52 AM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/24485a2a-77b5-414d-a498-3ae77bc0260c">
+<img width="1375" alt="Screen Shot 2023-08-16 at 5 15 43 PM" src="https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/34478815-d51a-4a0a-8306-dda37ccfb6e1">
 </p>
 
 # 6. Simulating brain perfusion and DaT imaging with the BrightView system in GATE
