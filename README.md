@@ -740,6 +740,7 @@ Now we start the simulation. We can specify a time slice, this will be the time 
 /gate/application/setTimeStart      0.0    s
 /gate/application/setTimeStop       60.0  s #180 degree 2 heads
 ```
+https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/cdfc916a-8695-4c3a-b1fa-63744b3773bd
 
 In this other example we use 40 seconds per projection. We then set a start and stop time. Here we used 32 projections per head so 1280 seconds. To be used with the first orbiting definition above (0.140625 deg/s with head replication along z).
 
@@ -750,6 +751,7 @@ In this other example we use 40 seconds per projection. We then set a start and 
 /gate/application/setTimeStop       1280 s # 180 degree for each head
 /gate/application/startDAQ
 ```
+https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/c0e1355a-66f3-49f2-acbb-9e4475006908
 
 ### Visualization
 
@@ -787,6 +789,8 @@ The last command in the .mac file executes the simulation
  /gate/application/startDAQ
 ```
 To run the simulation, open a terminal prompt, and type `path_to/Gate macro.mac`. To visualize and manipulate the geometry, run via `path_to/Gate --qt macro.mac`.
+
+https://github.com/BenAuer2021/Simulation-Of-Nuclear-Medicine-Imaging-Systems-Scintigraphy-SPECT/assets/84809217/7a22cccf-774a-4afb-8b35-577c38bb28ae
 
 # 3. Simulating the BrightView system equiped with LEHR, LEHR-VXHR, MEGP and HEGP collimator in GATE
 
